@@ -19,10 +19,18 @@ import {
   Plus,
   Eye,
   Edit,
-  Trash2
+  Trash2,
+  Filter,
+  Target,
+  Activity
 } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import APIKeyManager from '@/components/APIKeyManager'
+import { KPICardsGrid } from '@/components/dashboard/KPICards'
+import { ActivityTrendChart, CategoryDistributionChart, SecurityTrendsChart } from '@/components/dashboard/DashboardCharts'
+import { ExecutiveSummary } from '@/components/dashboard/ExecutiveSummary'
+import { DashboardFilters, FilterState } from '@/components/dashboard/DashboardFilters'
+import { InteractiveActions } from '@/components/dashboard/InteractiveActions'
 
 interface UserProfile {
   id: string
@@ -39,6 +47,13 @@ const Dashboard = () => {
     tools: 0,
     vulnerabilities: 0,
     dosArticles: 0
+  })
+  const [filters, setFilters] = useState<FilterState>({
+    dateRange: 'month',
+    category: 'all',
+    region: 'all',
+    metric: 'users',
+    search: ''
   })
 
   useEffect(() => {
@@ -130,32 +145,43 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Stats Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {statCards.map((stat) => (
-              <Card key={stat.title} className="border-primary/20 bg-card/60 backdrop-blur-md">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-                  <stat.icon className={`h-4 w-4 ${stat.color}`} />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stat.value}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {/* Executive Summary */}
+          <ExecutiveSummary stats={stats} />
+
+          {/* Dashboard Filters */}
+          <DashboardFilters filters={filters} onFiltersChange={setFilters} />
+
+          {/* Enhanced KPIs */}
+          <KPICardsGrid stats={stats} />
 
           {/* Main Content */}
-          <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
+          <Tabs defaultValue="analytics" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-8">
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="actions">Actions</TabsTrigger>
               {canEdit && <TabsTrigger value="courses">Courses</TabsTrigger>}
               {canEdit && <TabsTrigger value="tools">Tools</TabsTrigger>}
               {canEdit && <TabsTrigger value="vulnerabilities">Vulnerabilities</TabsTrigger>}
-              {canEdit && <TabsTrigger value="dos-articles">DOS Articles</TabsTrigger>}
               <TabsTrigger value="api-keys">API Keys</TabsTrigger>
               {isAdmin && <TabsTrigger value="settings">Settings</TabsTrigger>}
             </TabsList>
+
+            <TabsContent value="analytics" className="space-y-6">
+              <div className="space-y-6">
+                {/* Charts Grid */}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                  <ActivityTrendChart />
+                  <CategoryDistributionChart />
+                </div>
+                
+                <SecurityTrendsChart />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="actions" className="space-y-6">
+              <InteractiveActions />
+            </TabsContent>
 
             <TabsContent value="overview" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
