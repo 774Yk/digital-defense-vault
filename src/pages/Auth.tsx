@@ -10,7 +10,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { Shield, ArrowLeft, Github, Facebook, MessageCircle } from 'lucide-react'
 
 const Auth = () => {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('yassenalhagere@gmail.com')
   const [password, setPassword] = useState('3d9-dbea-4043-b3dd-db53a08fd287')
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
@@ -47,7 +47,7 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
           <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
@@ -55,12 +55,12 @@ const Auth = () => {
             Back to home
           </Link>
           <div className="flex justify-center">
-            <div className="p-3 bg-gradient-glow rounded-full">
-              <Shield className="w-8 h-8 text-primary" />
+            <div className="p-3 bg-blue-100 rounded-full">
+              <Shield className="w-8 h-8 text-blue-600" />
             </div>
           </div>
           <h1 className="text-2xl font-cyber font-bold">
-            <span className="bg-gradient-cyber bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
               CyberSec Platform
             </span>
           </h1>
@@ -69,7 +69,7 @@ const Auth = () => {
           </p>
         </div>
 
-        <Card className="border-gray-200 bg-white shadow-lg">
+        <Card className="border-blue-200 bg-blue-50/80 backdrop-blur-md shadow-xl">
           <CardHeader>
             <CardTitle className="text-center">Authentication</CardTitle>
             <CardDescription className="text-center">
