@@ -8,6 +8,7 @@ interface AuthContextType {
   session: Session | null
   signUp: (email: string, password: string, name?: string) => Promise<{ error: any }>
   signIn: (email: string, password: string) => Promise<{ error: any }>
+  signInWithSocial: (provider: 'github' | 'google' | 'discord' | 'facebook' | 'twitter') => Promise<{ error: any }>
   signOut: () => Promise<void>
   loading: boolean
 }
@@ -92,6 +93,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error }
   }
 
+  const signInWithSocial = async (provider: 'github' | 'google' | 'discord' | 'facebook' | 'twitter') => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/`
+      }
+    })
+    
+    if (error) {
+      toast({
+        title: "Social login failed",
+        description: error.message,
+        variant: "destructive"
+      })
+    }
+    
+    return { error }
+  }
+
   const signOut = async () => {
     await supabase.auth.signOut()
     toast({
@@ -106,6 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       signUp,
       signIn,
+      signInWithSocial,
       signOut,
       loading
     }}>
