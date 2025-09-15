@@ -22,6 +22,7 @@ import {
   Trash2
 } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
+import APIKeyManager from '@/components/APIKeyManager'
 
 interface UserProfile {
   id: string
@@ -146,12 +147,13 @@ const Dashboard = () => {
 
           {/* Main Content */}
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               {canEdit && <TabsTrigger value="courses">Courses</TabsTrigger>}
               {canEdit && <TabsTrigger value="tools">Tools</TabsTrigger>}
               {canEdit && <TabsTrigger value="vulnerabilities">Vulnerabilities</TabsTrigger>}
               {canEdit && <TabsTrigger value="dos-articles">DOS Articles</TabsTrigger>}
+              <TabsTrigger value="api-keys">API Keys</TabsTrigger>
               {isAdmin && <TabsTrigger value="settings">Settings</TabsTrigger>}
             </TabsList>
 
@@ -331,6 +333,23 @@ const Dashboard = () => {
                 </TabsContent>
               </>
             )}
+
+            <TabsContent value="api-keys" className="space-y-6">
+              <Card className="border-primary/20 bg-card/60 backdrop-blur-md">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings className="w-5 h-5 text-primary" />
+                    API Configuration
+                  </CardTitle>
+                  <CardDescription>
+                    Configure AI service API keys for enhanced functionality.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <APIKeyManager />
+                </CardContent>
+              </Card>
+            </TabsContent>
 
             {isAdmin && (
               <TabsContent value="settings" className="space-y-6">
