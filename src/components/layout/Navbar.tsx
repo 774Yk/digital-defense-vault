@@ -14,7 +14,7 @@ const Navbar = () => {
     { name: "Tools", href: "/tools" },
     { name: "DOS Attacks", href: "/dos-attacks" },
     { name: "Vulnerabilities", href: "/vulnerabilities" },
-    { name: "AI Assistant", href: "/ai-chat" },
+    { name: "MR.Yassen", href: "/ai-chat" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];
