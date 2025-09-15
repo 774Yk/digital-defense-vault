@@ -25,6 +25,10 @@ const Navbar = () => {
     return location.pathname === href || (href !== "/" && location.pathname.startsWith(href));
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-primary/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,7 +79,7 @@ const Navbar = () => {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  onClick={signOut}
+                  onClick={handleSignOut}
                   className="text-muted-foreground hover:text-primary"
                 >
                   <LogOut className="h-4 w-4 mr-1" />
@@ -150,7 +154,7 @@ const Navbar = () => {
                       className="w-full justify-start"
                       onClick={() => {
                         setIsOpen(false);
-                        signOut();
+                        handleSignOut();
                       }}
                     >
                       <LogOut className="h-4 w-4 mr-2" />
