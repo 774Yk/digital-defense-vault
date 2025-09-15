@@ -7,14 +7,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/useAuth'
+import { useToast } from '@/hooks/use-toast'
 import { Shield, ArrowLeft, Github, Facebook, MessageCircle } from 'lucide-react'
 
 const Auth = () => {
-  const [email, setEmail] = useState('yassenalhagere@gmail.com')
-  const [password, setPassword] = useState('3d9-dbea-4043-b3dd-db53a08fd287')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const { signIn, signUp, signInWithSocial, user } = useAuth()
+  const { toast } = useToast()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -27,7 +29,17 @@ const Auth = () => {
     e.preventDefault()
     setLoading(true)
     const { error } = await signIn(email, password)
-    if (!error) {
+    if (error) {
+      toast({
+        title: "Sign In Failed",
+        description: error.message,
+        variant: "destructive"
+      })
+    } else {
+      toast({
+        title: "Welcome back!",
+        description: "You have successfully signed in."
+      })
       navigate('/dashboard')
     }
     setLoading(false)
@@ -36,13 +48,32 @@ const Auth = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    await signUp(email, password, name)
+    const { error } = await signUp(email, password, name)
+    if (error) {
+      toast({
+        title: "Sign Up Failed",
+        description: error.message,
+        variant: "destructive"
+      })
+    } else {
+      toast({
+        title: "Account Created!",
+        description: "Please check your email to verify your account."
+      })
+    }
     setLoading(false)
   }
 
   const handleSocialLogin = async (provider: 'github' | 'google' | 'discord' | 'facebook' | 'twitter') => {
     setLoading(true)
-    await signInWithSocial(provider)
+    const { error } = await signInWithSocial(provider)
+    if (error) {
+      toast({
+        title: "Social Login Failed",
+        description: error.message,
+        variant: "destructive"
+      })
+    }
     setLoading(false)
   }
 
