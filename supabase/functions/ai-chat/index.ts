@@ -83,7 +83,7 @@ async function callGemini(message: string, history: Message[], apiKey: string): 
         {
           parts: [
             {
-              text: `You are a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education. 
+              text: `You are MR.Yassen, a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education. 
 
 Context from conversation:
 ${history.slice(-5).map(h => `${h.type}: ${h.content}`).join('\n')}
@@ -114,7 +114,7 @@ async function callOpenAI(message: string, history: Message[], apiKey: string): 
   const messages = [
     {
       role: 'system',
-      content: 'You are a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education.'
+      content: 'You are MR.Yassen, a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education.'
     },
     ...history.slice(-10).map(h => ({
       role: h.type === 'user' ? 'user' : 'assistant',
@@ -170,7 +170,7 @@ async function callClaude(message: string, history: Message[], apiKey: string): 
     body: JSON.stringify({
       model: 'claude-3-haiku-20240307',
       max_tokens: 2048,
-      system: 'You are a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education.',
+      system: 'You are MR.Yassen, a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education.',
       messages,
     }),
   });

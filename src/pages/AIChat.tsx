@@ -36,7 +36,7 @@ const AIChat = () => {
     {
       id: '1',
       type: 'assistant',
-      content: 'Hello! I\'m your AI assistant. I can help you with cybersecurity questions, analyze files, generate content, and more. What would you like to do today?',
+      content: 'Hello! I\'m MR.Yassen, your cybersecurity AI assistant. I can help you with cybersecurity questions, analyze files, generate content, and more. What would you like to do today?',
       timestamp: new Date(),
     }
   ]);
@@ -169,11 +169,11 @@ const AIChat = () => {
           <div className="mb-6">
             <h1 className="text-3xl font-cyber font-bold">
               <span className="bg-gradient-cyber bg-clip-text text-transparent">
-                AI Assistant
+                MR.Yassen - AI Assistant
               </span>
             </h1>
             <p className="text-muted-foreground mt-2">
-              Interact with AI for cybersecurity analysis, research, and content creation
+              Your cybersecurity AI companion for analysis, research, and content creation
             </p>
           </div>
 
@@ -182,7 +182,7 @@ const AIChat = () => {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2">
                 <Bot className="w-5 h-5 text-primary" />
-                Conversation
+                Chat with MR.Yassen
               </CardTitle>
             </CardHeader>
             
