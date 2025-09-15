@@ -19,42 +19,65 @@ serve(async (req) => {
 
   try {
     const { message, files, conversationHistory } = await req.json();
+    
+    console.log('Processing AI request for message:', message?.substring(0, 50));
+
+    // Check available API keys
+    const geminiKey = Deno.env.get('GEMINI_API_KEY');
+    const openaiKey = Deno.env.get('OPENAI_API_KEY');
+    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY');
+    
+    console.log('Available keys:', {
+      gemini: !!geminiKey,
+      openai: !!openaiKey,
+      anthropic: !!anthropicKey
+    });
 
     // Try different AI providers in order of preference
     let response = '';
+    let lastError = null;
     
     // First try Gemini
-    const geminiKey = Deno.env.get('GEMINI_API_KEY');
     if (geminiKey && !response) {
       try {
+        console.log('Trying Gemini API...');
         response = await callGemini(message, conversationHistory, geminiKey);
+        console.log('Gemini API successful');
       } catch (error) {
-        console.log('Gemini failed, trying OpenAI:', error);
+        console.log('Gemini failed:', error.message);
+        lastError = error;
       }
     }
 
     // Fallback to OpenAI
-    const openaiKey = Deno.env.get('OPENAI_API_KEY');
     if (openaiKey && !response) {
       try {
+        console.log('Trying OpenAI API...');
         response = await callOpenAI(message, conversationHistory, openaiKey);
+        console.log('OpenAI API successful');
       } catch (error) {
-        console.log('OpenAI failed, trying Anthropic:', error);
+        console.log('OpenAI failed:', error.message);
+        lastError = error;
       }
     }
 
     // Fallback to Anthropic Claude
-    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY');
     if (anthropicKey && !response) {
       try {
+        console.log('Trying Anthropic API...');
         response = await callClaude(message, conversationHistory, anthropicKey);
+        console.log('Anthropic API successful');
       } catch (error) {
-        console.log('All AI providers failed:', error);
+        console.log('Anthropic failed:', error.message);
+        lastError = error;
       }
     }
 
     if (!response) {
-      throw new Error('No AI providers available. Please configure your API keys in the dashboard.');
+      const errorMsg = lastError 
+        ? `All AI providers failed. Last error: ${lastError.message}`
+        : 'No AI API keys are configured. Please add GEMINI_API_KEY, OPENAI_API_KEY, or ANTHROPIC_API_KEY in Supabase Edge Function Secrets.';
+      throw new Error(errorMsg);
     }
 
     return new Response(JSON.stringify({ response }), {

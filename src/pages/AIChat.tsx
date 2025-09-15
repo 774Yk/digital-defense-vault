@@ -95,9 +95,17 @@ const AIChat = () => {
       setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
       console.error('Error calling AI:', error);
+      
+      let errorMessage = "Failed to get AI response.";
+      if (error && typeof error === 'object' && 'message' in error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+      
       toast({
-        title: "Error",
-        description: "Failed to get AI response. Please check your API configuration.",
+        title: "AI Error",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
