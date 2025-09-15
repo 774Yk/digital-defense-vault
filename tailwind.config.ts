@@ -22,6 +22,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -57,6 +58,31 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        terminal: {
+          bg: "hsl(var(--terminal-bg))",
+          green: "hsl(var(--terminal-green))",
+          red: "hsl(var(--terminal-red))",
+          yellow: "hsl(var(--terminal-yellow))",
+          blue: "hsl(var(--terminal-blue))",
+        },
+      },
+      fontFamily: {
+        mono: ["'JetBrains Mono'", "'Fira Code'", "Consolas", "Monaco", "monospace"],
+        cyber: ["'Orbitron'", "'Exo 2'", "sans-serif"],
+      },
+      backgroundImage: {
+        'gradient-cyber': 'var(--gradient-cyber)',
+        'gradient-dark': 'var(--gradient-dark)', 
+        'gradient-glow': 'var(--gradient-glow)',
+      },
+      boxShadow: {
+        'glow-primary': 'var(--glow-primary)',
+        'glow-secondary': 'var(--glow-secondary)',
+        'glow-accent': 'var(--glow-accent)',
+        'cyber': 'var(--shadow-cyber)',
+      },
+      transitionTimingFunction: {
+        'cyber': 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -84,6 +110,9 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "cyber-pulse": "cyber-pulse 2s ease-in-out infinite",
+        "terminal-blink": "terminal-blink 1s step-end infinite",
+        "neon-flicker": "neon-flicker 3s linear infinite",
       },
     },
   },
