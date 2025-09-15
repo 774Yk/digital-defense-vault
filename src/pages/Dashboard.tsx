@@ -54,7 +54,7 @@ const Dashboard = () => {
         .from('profiles')
         .select('*')
         .eq('user_id', user?.id)
-        .single()
+        .maybeSingle()
 
       if (error) throw error
       setProfile(data)

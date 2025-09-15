@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Shield, Menu, X, Globe, LogIn, LogOut, LayoutDashboard } from "lucide-react";
+import { Shield, Menu, X, Globe, LogIn, LayoutDashboard, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { user, signOut } = useAuth();
-  const navigate = useNavigate();
   const { user, signOut } = useAuth();
 
   const navItems = [
@@ -25,22 +23,6 @@ const Navbar = () => {
 
   const isActive = (href: string) => {
     return location.pathname === href || (href !== "/" && location.pathname.startsWith(href));
-  };
-
-  const handleAuthAction = () => {
-    if (user) {
-      signOut();
-    } else {
-      navigate('/auth');
-    }
-  };
-
-  const handleDashboardClick = () => {
-    if (user) {
-      navigate('/dashboard');
-    } else {
-      navigate('/auth');
-    }
   };
 
   return (
@@ -82,34 +64,39 @@ const Navbar = () => {
             </Button>
             
             {/* Auth Buttons */}
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-muted-foreground hover:text-primary"
-              onClick={handleAuthAction}
-            >
-              {user ? (
-                <>
+            {user ? (
+              <>
+                <Link to="/dashboard">
+                  <Button variant="outline" size="sm" className="border-primary/30 hover:border-primary">
+                    <LayoutDashboard className="h-4 w-4 mr-1" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={signOut}
+                  className="text-muted-foreground hover:text-primary"
+                >
                   <LogOut className="h-4 w-4 mr-1" />
                   Logout
-                </>
-              ) : (
-                <>
-                  <LogIn className="h-4 w-4 mr-1" />
-                  Login
-                </>
-              )}
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="border-primary/30 hover:border-primary"
-              onClick={handleDashboardClick}
-            >
-              <LayoutDashboard className="h-4 w-4 mr-1" />
-              Dashboard
-            </Button>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
+                    <LogIn className="h-4 w-4 mr-1" />
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button variant="outline" size="sm" className="border-primary/30 hover:border-primary">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -149,33 +136,42 @@ const Navbar = () => {
                   <Globe className="h-4 w-4 mr-2" />
                   Language (EN)
                 </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="w-full justify-start"
-                  onClick={handleAuthAction}
-                >
-                  {user ? (
-                    <>
+                {user ? (
+                  <>
+                    <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        <LayoutDashboard className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start"
+                      onClick={() => {
+                        setIsOpen(false);
+                        signOut();
+                      }}
+                    >
                       <LogOut className="h-4 w-4 mr-2" />
                       Logout
-                    </>
-                  ) : (
-                    <>
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Login
-                    </>
-                  )}
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full"
-                  onClick={handleDashboardClick}
-                >
-                  <LayoutDashboard className="h-4 w-4 mr-2" />
-                  Dashboard
-                </Button>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/auth" onClick={() => setIsOpen(false)}>
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        <LogIn className="h-4 w-4 mr-2" />
+                        Login
+                      </Button>
+                    </Link>
+                    <Link to="/auth" onClick={() => setIsOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
