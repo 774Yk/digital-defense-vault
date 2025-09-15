@@ -96,6 +96,8 @@ serve(async (req) => {
 });
 
 async function callGemini(message: string, history: Message[], apiKey: string): Promise<string> {
+  console.log('Calling Gemini with API key length:', apiKey?.length || 0);
+  
   const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + apiKey, {
     method: 'POST',
     headers: {
@@ -125,11 +127,16 @@ User message: ${message}`
     }),
   });
 
+  console.log('Gemini API response status:', response.status);
+
   if (!response.ok) {
-    throw new Error(`Gemini API error: ${response.status}`);
+    const errorText = await response.text();
+    console.log('Gemini API error response:', errorText);
+    throw new Error(`Gemini API error: ${response.status} - ${errorText}`);
   }
 
   const data = await response.json();
+  console.log('Gemini API response data keys:', Object.keys(data));
   return data.candidates[0]?.content?.parts[0]?.text || 'No response from Gemini';
 }
 
