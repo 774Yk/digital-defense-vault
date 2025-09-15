@@ -11,7 +11,7 @@ import { Shield, ArrowLeft, Github, Facebook, MessageCircle } from 'lucide-react
 
 const Auth = () => {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('3d9-dbea-4043-b3dd-db53a08fd287')
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const { signIn, signUp, signInWithSocial, user } = useAuth()
@@ -19,7 +19,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/')
+      navigate('/dashboard')
     }
   }, [user, navigate])
 
@@ -28,7 +28,7 @@ const Auth = () => {
     setLoading(true)
     const { error } = await signIn(email, password)
     if (!error) {
-      navigate('/')
+      navigate('/dashboard')
     }
     setLoading(false)
   }
@@ -47,7 +47,7 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-card/20 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
           <Link to="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
@@ -69,7 +69,7 @@ const Auth = () => {
           </p>
         </div>
 
-        <Card className="border-primary/20 bg-card/60 backdrop-blur-md">
+        <Card className="border-gray-200 bg-white shadow-lg">
           <CardHeader>
             <CardTitle className="text-center">Authentication</CardTitle>
             <CardDescription className="text-center">
