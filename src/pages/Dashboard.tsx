@@ -110,6 +110,23 @@ const Dashboard = () => {
     return <Navigate to="/auth" replace />
   }
 
+  // Restrict dashboard access to only yassenalhajere@gmail.com
+  if (user.email !== 'yassenalhajere@gmail.com') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-card/20 flex items-center justify-center">
+        <div className="max-w-md mx-auto text-center p-6">
+          <h2 className="text-2xl font-bold text-destructive mb-4">Access Restricted</h2>
+          <p className="text-muted-foreground mb-6">
+            Dashboard access is currently restricted. You are not authorized to view this page.
+          </p>
+          <Button onClick={() => window.history.back()}>
+            Go Back
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
   const isAdmin = profile?.role === 'SuperAdmin' || profile?.role === 'Admin'
   const canEdit = isAdmin || profile?.role === 'Editor'
 
