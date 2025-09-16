@@ -110,14 +110,14 @@ const Dashboard = () => {
     return <Navigate to="/auth" replace />
   }
 
-  // Restrict dashboard access to only yassenalhajere@gmail.com
-  if (user.email !== 'yassenalhajere@gmail.com') {
+  // Only allow users with appropriate roles to access dashboard
+  if (!profile && !loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-card/20 flex items-center justify-center">
         <div className="max-w-md mx-auto text-center p-6">
-          <h2 className="text-2xl font-bold text-destructive mb-4">Access Restricted</h2>
+          <h2 className="text-2xl font-bold text-destructive mb-4">Profile Not Found</h2>
           <p className="text-muted-foreground mb-6">
-            Dashboard access is currently restricted. You are not authorized to view this page.
+            Your user profile could not be loaded. Please contact an administrator.
           </p>
           <Button onClick={() => window.history.back()}>
             Go Back

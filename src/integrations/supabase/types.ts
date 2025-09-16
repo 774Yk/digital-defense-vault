@@ -412,6 +412,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
+      promote_user_role: {
+        Args: { new_role: string; target_email: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
