@@ -31,6 +31,7 @@ import { ActivityTrendChart, CategoryDistributionChart, SecurityTrendsChart } fr
 import { ExecutiveSummary } from '@/components/dashboard/ExecutiveSummary'
 import { DashboardFilters, FilterState } from '@/components/dashboard/DashboardFilters'
 import { InteractiveActions } from '@/components/dashboard/InteractiveActions'
+import { UserManagement } from '@/components/dashboard/UserManagement'
 
 interface UserProfile {
   id: string
@@ -407,9 +408,7 @@ const Dashboard = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground text-center py-8">
-                      System settings interface will be implemented here.
-                    </p>
+                    <UserManagement />
                   </CardContent>
                 </Card>
               </TabsContent>
