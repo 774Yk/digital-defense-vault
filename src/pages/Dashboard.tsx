@@ -32,6 +32,7 @@ import { ExecutiveSummary } from '@/components/dashboard/ExecutiveSummary'
 import { DashboardFilters, FilterState } from '@/components/dashboard/DashboardFilters'
 import { InteractiveActions } from '@/components/dashboard/InteractiveActions'
 import { UserManagement } from '@/components/dashboard/UserManagement'
+import { QuickSetup } from '@/components/dashboard/QuickSetup'
 
 interface UserProfile {
   id: string
@@ -173,8 +174,9 @@ const Dashboard = () => {
           <KPICardsGrid stats={stats} />
 
           {/* Main Content */}
-          <Tabs defaultValue="analytics" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-8">
+          <Tabs defaultValue="setup" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-9">
+              <TabsTrigger value="setup">Setup</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="actions">Actions</TabsTrigger>
@@ -184,6 +186,10 @@ const Dashboard = () => {
               <TabsTrigger value="api-keys">API Keys</TabsTrigger>
               {isAdmin && <TabsTrigger value="settings">Settings</TabsTrigger>}
             </TabsList>
+
+            <TabsContent value="setup" className="space-y-6">
+              <QuickSetup />
+            </TabsContent>
 
             <TabsContent value="analytics" className="space-y-6">
               <div className="space-y-6">
@@ -346,31 +352,6 @@ const Dashboard = () => {
                     <CardContent>
                       <p className="text-muted-foreground text-center py-8">
                         Vulnerability management interface will be implemented here.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-
-                <TabsContent value="dos-articles" className="space-y-6">
-                  <Card className="border-primary/20 bg-card/60 backdrop-blur-md">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="flex items-center gap-2">
-                          <Zap className="w-5 h-5 text-primary" />
-                          Manage DOS Articles
-                        </CardTitle>
-                        <Button className="gap-2">
-                          <Plus className="w-4 h-4" />
-                          Add Article
-                        </Button>
-                      </div>
-                      <CardDescription>
-                        Create educational content about DOS attacks and defense mechanisms.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-center py-8">
-                        DOS article management interface will be implemented here.
                       </p>
                     </CardContent>
                   </Card>

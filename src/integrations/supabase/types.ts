@@ -408,6 +408,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_user_emails: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          email: string
+          id: string
+        }[]
+      }
       is_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean

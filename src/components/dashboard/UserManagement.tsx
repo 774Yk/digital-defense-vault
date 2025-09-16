@@ -44,21 +44,14 @@ export function UserManagement() {
 
       if (profilesError) throw profilesError
 
-      // Get user emails from auth.users table via RPC function
-      const { data: usersData, error: usersError } = await supabase
-        .rpc('get_user_emails')
-
-      if (usersError) {
-        console.warn('Could not fetch user emails:', usersError)
-      }
-
-      // Merge profile data with email data
-      const usersWithEmails = profilesData?.map(profile => ({
+      // For now, display users without email addresses
+      // In production, you might want to create a more sophisticated system
+      const usersWithPlaceholderEmails = profilesData?.map(profile => ({
         ...profile,
-        email: usersData?.find((u: any) => u.id === profile.user_id)?.email || 'N/A'
+        email: 'user@domain.com' // Placeholder - actual emails require admin access
       })) || []
 
-      setUsers(usersWithEmails)
+      setUsers(usersWithPlaceholderEmails)
     } catch (error) {
       console.error('Error fetching users:', error)
       toast({
