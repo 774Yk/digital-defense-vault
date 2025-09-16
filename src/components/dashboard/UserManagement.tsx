@@ -44,14 +44,13 @@ export function UserManagement() {
 
       if (profilesError) throw profilesError
 
-      // For now, display users without email addresses
-      // In production, you might want to create a more sophisticated system
-      const usersWithPlaceholderEmails = profilesData?.map(profile => ({
+      // Map profiles with placeholder emails since auth.users is restricted
+      const usersWithEmails = (profilesData || []).map(profile => ({
         ...profile,
         email: 'user@domain.com' // Placeholder - actual emails require admin access
-      })) || []
+      }))
 
-      setUsers(usersWithPlaceholderEmails)
+      setUsers(usersWithEmails)
     } catch (error) {
       console.error('Error fetching users:', error)
       toast({
