@@ -39,6 +39,8 @@ const Vulnerabilities = () => {
           slug: 'sql-injection-example',
           type: 'Web Application',
           severity: 'High',
+          description_html: '<p>Learn about SQL injection vulnerabilities</p>',
+          tags: ['web', 'database', 'injection'],
           created_at: new Date().toISOString()
         }
       ])
@@ -48,12 +50,10 @@ const Vulnerabilities = () => {
       setLoading(false)
     }
   }
-  }
 
   const filteredVulnerabilities = vulnerabilities.filter(vuln =>
     vuln.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    vuln.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    vuln.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    vuln.type.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getSeverityColor = (severity: string) => {
@@ -209,7 +209,7 @@ const Vulnerabilities = () => {
 
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Vulnerabilities
+export default Vulnerabilities;

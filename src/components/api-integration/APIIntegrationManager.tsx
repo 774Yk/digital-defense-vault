@@ -16,10 +16,10 @@ interface APIIntegration {
   description: string
   base_url: string
   auth_type: string
-  is_active: boolean
-  created_at: string
   auth_config: Record<string, any>
   headers: Record<string, any>
+  is_active: boolean
+  created_at: string
   metadata: Record<string, any>
 }
 
@@ -41,6 +41,16 @@ export function APIIntegrationManager() {
   const [showAddForm, setShowAddForm] = useState(false)
   const [selectedIntegration, setSelectedIntegration] = useState<APIIntegration | null>(null)
   const { toast } = useToast()
+
+  const handleEditIntegration = (integration: APIIntegration) => {
+    const completeIntegration: APIIntegration = {
+      ...integration,
+      auth_config: integration.auth_config || {},
+      headers: integration.headers || {},
+      metadata: integration.metadata || {}
+    }
+    setSelectedIntegration(completeIntegration)
+  }
 
   useEffect(() => {
     fetchIntegrations()
@@ -230,7 +240,7 @@ export function APIIntegrationManager() {
                   integration={integration}
                   endpoints={endpoints.filter(e => e.integration_id === integration.id)}
                   onToggle={handleIntegrationToggle}
-                  onEdit={setSelectedIntegration}
+                  onEdit={handleEditIntegration}
                 />
               ))}
               {integrations.length === 0 && (

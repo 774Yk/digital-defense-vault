@@ -41,6 +41,8 @@ const Tools = () => {
           slug: 'network-scanner',
           description: 'Advanced network scanning tool',
           version: '2.1.0',
+          source_type: 'local',
+          tags: ['network', 'scanning', 'security'],
           is_downloadable: true,
           created_at: new Date().toISOString()
         }
