@@ -28,14 +28,20 @@ const Auth = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    const { error } = await signIn(email, password)
-    if (error) {
+    
+    // Basic validation
+    if (!email || !password) {
       toast({
-        title: "Sign In Failed",
-        description: error.message,
+        title: "Missing Information",
+        description: "Please enter both email and password.",
         variant: "destructive"
       })
-    } else {
+      setLoading(false)
+      return
+    }
+    
+    const { error } = await signIn(email, password)
+    if (!error) {
       toast({
         title: "Welcome back!",
         description: "You have successfully signed in."
@@ -189,6 +195,9 @@ const Auth = () => {
               
               <TabsContent value="signin">
                 <form onSubmit={handleSignIn} className="space-y-4 mt-4">
+                  <div className="text-sm text-muted-foreground mb-4 p-3 bg-blue-50 rounded-md border border-blue-200">
+                    <strong>New user?</strong> Create an account using the "Sign Up" tab if you don't have one yet.
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="signin-email">Email</Label>
                     <Input

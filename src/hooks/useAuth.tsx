@@ -83,9 +83,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
     
     if (error) {
+      let description = error.message
+      
+      // Provide more helpful error messages
+      if (error.message.includes('Invalid login credentials')) {
+        description = "Email or password is incorrect. If you don't have an account yet, please sign up first."
+      } else if (error.message.includes('Email not confirmed')) {
+        description = "Please check your email and click the confirmation link before signing in."
+      } else if (error.message.includes('User not found')) {
+        description = "No account found with this email. Please sign up first."
+      }
+      
       toast({
         title: "Sign in failed",
-        description: error.message,
+        description,
         variant: "destructive"
       })
     }
