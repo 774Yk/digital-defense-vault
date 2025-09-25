@@ -3,8 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { RefreshCw, ExternalLink, Database, AlertCircle } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { RefreshCw, ExternalLink, Database, AlertCircle, BarChart3, Table2, Grid3X3 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
+import { supabase } from '@/integrations/supabase/client'
 
 interface APIIntegration {
   id: string
@@ -43,6 +45,7 @@ interface Props {
 
 export function DynamicServiceRenderer({ integrations, endpoints }: Props) {
   const [servicesData, setServicesData] = useState<Record<string, ServiceData>>({})
+  const [viewMode, setViewMode] = useState<'auto' | 'json' | 'table' | 'cards'>('auto')
   const { toast } = useToast()
 
   const activeEndpoints = endpoints.filter(endpoint => 
@@ -85,22 +88,18 @@ export function DynamicServiceRenderer({ integrations, endpoints }: Props) {
 
     try {
       // Call our edge function to fetch API data securely
-      const response = await fetch('/api/fetch-api-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+      const response = await supabase.functions.invoke('fetch-api-data', {
+        body: {
           integration_id: integration.id,
           endpoint_id: endpoint.id
-        })
+        }
       })
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to fetch data')
       }
 
-      const result = await response.json()
+      const result = response.data
       
       setServicesData(prev => ({
         ...prev,
@@ -251,11 +250,47 @@ export function DynamicServiceRenderer({ integrations, endpoints }: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
-        <h3 className="text-lg font-medium mb-2">Dynamic API Services</h3>
-        <p className="text-muted-foreground">
-          Real-time data from your integrated APIs rendered automatically
-        </p>
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="text-center md:text-left">
+          <h3 className="text-lg font-medium mb-2">Dynamic API Services</h3>
+          <p className="text-muted-foreground">
+            Real-time data from your integrated APIs rendered automatically
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">View:</span>
+          <Select value={viewMode} onValueChange={(value: any) => setViewMode(value)}>
+            <SelectTrigger className="w-32">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="auto">
+                <div className="flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4" />
+                  Auto
+                </div>
+              </SelectItem>
+              <SelectItem value="json">
+                <div className="flex items-center gap-2">
+                  <Database className="w-4 h-4" />
+                  JSON
+                </div>
+              </SelectItem>
+              <SelectItem value="table">
+                <div className="flex items-center gap-2">
+                  <Table2 className="w-4 h-4" />
+                  Table
+                </div>
+              </SelectItem>
+              <SelectItem value="cards">
+                <div className="flex items-center gap-2">
+                  <Grid3X3 className="w-4 h-4" />
+                  Cards
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -308,20 +343,25 @@ export function DynamicServiceRenderer({ integrations, endpoints }: Props) {
                   </div>
                 )}
 
-                {serviceData?.data && !serviceData.loading && !serviceData.error && (
+                 {serviceData?.data && !serviceData.loading && !serviceData.error && (
                   <div className="space-y-3">
                     {renderDataVisualization(
                       serviceData.data, 
-                      getVisualizationFormat(serviceData.data)
+                      viewMode === 'auto' ? getVisualizationFormat(serviceData.data) : viewMode
                     )}
                     <div className="flex justify-between items-center text-xs text-muted-foreground">
                       <span>
                         Last updated: {serviceData.last_updated.toLocaleTimeString()}
                       </span>
-                      <Button variant="ghost" size="sm">
-                        <ExternalLink className="w-3 h-3 mr-1" />
-                        View Full Data
-                      </Button>
+                      <div className="flex gap-2">
+                        <Badge variant="outline" className="text-xs">
+                          {Array.isArray(serviceData.data) ? `${serviceData.data.length} items` : 'Object'}
+                        </Badge>
+                        <Button variant="ghost" size="sm">
+                          <ExternalLink className="w-3 h-3 mr-1" />
+                          Export
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 )}

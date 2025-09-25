@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { Globe, Settings, MoreVertical, ExternalLink, Activity } from 'lucide-react'
+import { Globe, Settings, MoreVertical, ExternalLink, Activity, CheckCircle, AlertTriangle, Clock } from 'lucide-react'
 
 interface APIIntegration {
   id: string
@@ -32,9 +32,10 @@ interface Props {
   endpoints: APIEndpoint[]
   onToggle: (id: string, isActive: boolean) => void
   onEdit: (integration: APIIntegration) => void
+  healthStatus?: 'healthy' | 'degraded' | 'down'
 }
 
-export function APIServiceCard({ integration, endpoints, onToggle, onEdit }: Props) {
+export function APIServiceCard({ integration, endpoints, onToggle, onEdit, healthStatus }: Props) {
   const [isToggling, setIsToggling] = useState(false)
 
   const handleToggle = async () => {
@@ -65,6 +66,15 @@ export function APIServiceCard({ integration, endpoints, onToggle, onEdit }: Pro
     return authType.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
   }
 
+  const getHealthIcon = () => {
+    switch (healthStatus) {
+      case 'healthy': return <CheckCircle className="w-4 h-4 text-green-500" />
+      case 'degraded': return <AlertTriangle className="w-4 h-4 text-yellow-500" />
+      case 'down': return <AlertTriangle className="w-4 h-4 text-red-500" />
+      default: return <Clock className="w-4 h-4 text-gray-400" />
+    }
+  }
+
   return (
     <Card className={`transition-all ${integration.is_active ? 'border-green-200' : 'border-gray-200'}`}>
       <CardHeader className="pb-3">
@@ -74,7 +84,10 @@ export function APIServiceCard({ integration, endpoints, onToggle, onEdit }: Pro
               <Globe className={`w-5 h-5 ${integration.is_active ? 'text-green-600' : 'text-gray-500'}`} />
             </div>
             <div>
-              <CardTitle className="text-lg">{integration.name}</CardTitle>
+              <div className="flex items-center gap-2">
+                <CardTitle className="text-lg">{integration.name}</CardTitle>
+                {getHealthIcon()}
+              </div>
               <CardDescription className="text-sm">
                 {new URL(integration.base_url).hostname}
               </CardDescription>
