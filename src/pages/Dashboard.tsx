@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuth } from '@/hooks/useAuth'
-import { supabase } from '@/integrations/supabase/client'
 import { 
   LayoutDashboard, 
   BookOpen, 
@@ -81,12 +80,12 @@ const Dashboard = () => {
 
   const fetchStats = async () => {
     try {
-      // Show demo stats since we don't have content tables yet
+      // Show demo stats since we don't have content tables yet  
       setStats({
-        courses: 12,
-        tools: 8,
-        vulnerabilities: 25,
-        dosArticles: 15
+        courses: 15,
+        tools: 12,
+        vulnerabilities: 32,
+        dosArticles: 18
       })
     } catch (error) {
       console.error('Error fetching stats:', error)

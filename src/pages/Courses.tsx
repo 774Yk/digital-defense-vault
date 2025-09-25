@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { supabase } from '@/integrations/supabase/client'
 import { BookOpen, Search, Download, Clock } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -54,6 +53,17 @@ const Courses = () => {
           level: 'Advanced',
           cover_image_url: '',
           tags: ['Network', 'Advanced', 'Security'],
+          created_at: new Date().toISOString()
+        },
+        {
+          id: '3',
+          title: 'Web Application Security',
+          slug: 'web-app-security', 
+          description: 'Comprehensive guide to securing web applications and understanding common vulnerabilities.',
+          language: 'English',
+          level: 'Intermediate',
+          cover_image_url: '',
+          tags: ['Web', 'Application', 'Security'],
           created_at: new Date().toISOString()
         }
       ])

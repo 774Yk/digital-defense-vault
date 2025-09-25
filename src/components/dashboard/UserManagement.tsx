@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { supabase } from '@/integrations/supabase/client'
 import { useToast } from '@/hooks/use-toast'
 import { Users, UserPlus, Edit, Trash2, Shield } from 'lucide-react'
 
@@ -48,6 +47,16 @@ export function UserManagement() {
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           email: 'admin@demo.com'
+        },
+        {
+          id: '2',
+          user_id: '2', 
+          name: 'Demo Editor',
+          role: 'Editor',
+          is_active: true,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          email: 'editor@demo.com'
         }
       ])
     } catch (error) {
