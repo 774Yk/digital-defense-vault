@@ -7,19 +7,49 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { X, Plus, Eye, EyeOff } from 'lucide-react'
+import { X, Plus, Eye, EyeOff, RefreshCw, AlertTriangle, CheckCircle, Shield } from 'lucide-react'
 import { supabase } from '@/integrations/supabase/client'
 import { useToast } from '@/hooks/use-toast'
 import { z } from 'zod'
 
-// Validation schema
+// Enhanced validation schema with security checks
 const integrationSchema = z.object({
-  name: z.string().min(1, "Name is required").max(100),
-  description: z.string().max(500).optional(),
-  base_url: z.string().url("Valid URL is required"),
+  name: z.string()
+    .min(1, "Name is required")
+    .max(100, "Name must be less than 100 characters")
+    .regex(/^[a-zA-Z0-9\s\-_]+$/, "Name contains invalid characters"),
+  description: z.string()
+    .max(500, "Description must be less than 500 characters")
+    .optional(),
+  base_url: z.string()
+    .url("Valid URL is required")
+    .refine((url) => {
+      try {
+        const parsed = new URL(url)
+        return ['https:', 'http:'].includes(parsed.protocol)
+      } catch {
+        return false
+      }
+    }, "URL must use HTTP or HTTPS protocol")
+    .refine((url) => {
+      const parsed = new URL(url) 
+      return !['localhost', '127.0.0.1', '0.0.0.0'].includes(parsed.hostname)
+    }, "Localhost URLs are not allowed for security"),
   auth_type: z.enum(['none', 'api_key', 'bearer_token', 'basic_auth']),
-  auth_config: z.record(z.string()).optional(),
-  headers: z.record(z.string()).optional()
+  auth_config: z.record(z.string().max(500)).optional(),
+  headers: z.record(z.string().max(1000)).optional()
+})
+
+const endpointSchema = z.object({
+  name: z.string()
+    .min(1, "Endpoint name is required")
+    .max(100, "Name too long")
+    .regex(/^[a-zA-Z0-9\s\-_]+$/, "Invalid characters in name"),
+  path: z.string()
+    .min(1, "Path is required")
+    .regex(/^\/[a-zA-Z0-9\-_\/\{\}]*$/, "Invalid API path format"),
+  method: z.enum(['GET', 'POST', 'PUT', 'DELETE', 'PATCH']),
+  params: z.record(z.any()).optional()
 })
 
 interface APIEndpointConfig {
@@ -48,6 +78,9 @@ export function APIConfigForm({ onSuccess, onCancel }: Props) {
   const [loading, setLoading] = useState(false)
   const [showSecrets, setShowSecrets] = useState(false)
   const [testResponse, setTestResponse] = useState<any>(null)
+  const [validationErrors, setValidationErrors] = useState<string[]>([])
+  const [securityWarnings, setSecurityWarnings] = useState<string[]>([])
+  const [isValidating, setIsValidating] = useState(false)
   const { toast } = useToast()
 
   const addAuthField = (key: string, value: string) => {
@@ -93,43 +126,95 @@ export function APIConfigForm({ onSuccess, onCancel }: Props) {
     setEndpoints(prev => prev.filter((_, i) => i !== index))
   }
 
+  const validateFormData = () => {
+    const errors: string[] = []
+    const warnings: string[] = []
+
+    // Validate integration data
+    try {
+      integrationSchema.parse(formData)
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        errors.push(...error.errors.map(e => e.message))
+      }
+    }
+
+    // Validate endpoints
+    endpoints.forEach((endpoint, index) => {
+      try {
+        endpointSchema.parse(endpoint)
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          errors.push(...error.errors.map(e => `Endpoint ${index + 1}: ${e.message}`))
+        }
+      }
+    })
+
+    // Security warnings
+    if (formData.base_url.startsWith('http://')) {
+      warnings.push('Using HTTP instead of HTTPS may expose sensitive data')
+    }
+
+    if (formData.auth_type === 'none' && formData.base_url.includes('api')) {
+      warnings.push('No authentication configured for API endpoint')
+    }
+
+    if (Object.keys(formData.headers).some(key => key.toLowerCase().includes('authorization'))) {
+      warnings.push('Authorization headers should be configured in auth section')
+    }
+
+    setValidationErrors(errors)
+    setSecurityWarnings(warnings)
+    return errors.length === 0
+  }
+
   const testConnection = async () => {
+    if (!validateFormData()) {
+      toast({
+        title: "Validation Failed",
+        description: "Please fix validation errors before testing",
+        variant: "destructive"
+      })
+      return
+    }
+
     try {
       setLoading(true)
+      setIsValidating(true)
       
-      const response = await fetch('/api/test-api-connection', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+      const response = await supabase.functions.invoke('test-api-connection', {
+        body: {
           base_url: formData.base_url,
           auth_type: formData.auth_type,
           auth_config: formData.auth_config,
-          headers: formData.headers
-        })
+          headers: formData.headers,
+          timeout: 10000 // 10 second timeout
+        }
       })
 
-      const result = await response.json()
-      
-      if (response.ok) {
-        setTestResponse({ success: true, data: result })
-        toast({
-          title: "Connection Successful",
-          description: "API connection test passed"
-        })
-      } else {
-        setTestResponse({ success: false, error: result.error })
-        toast({
-          title: "Connection Failed",
-          description: result.error || "Failed to connect to API",
-          variant: "destructive"
-        })
+      if (response.error) {
+        throw new Error(response.error.message)
       }
+      
+      setTestResponse({ 
+        success: true, 
+        data: response.data,
+        timestamp: new Date().toISOString(),
+        response_time: response.data?.response_time || 0
+      })
+      
+      toast({
+        title: "Connection Successful",
+        description: `API responded in ${response.data?.response_time || 0}ms`
+      })
     } catch (error) {
       console.error('Test connection error:', error)
       const errorMsg = error instanceof Error ? error.message : 'Connection test failed'
-      setTestResponse({ success: false, error: errorMsg })
+      setTestResponse({ 
+        success: false, 
+        error: errorMsg,
+        timestamp: new Date().toISOString()
+      })
       toast({
         title: "Test Failed",
         description: errorMsg,
@@ -137,6 +222,7 @@ export function APIConfigForm({ onSuccess, onCancel }: Props) {
       })
     } finally {
       setLoading(false)
+      setIsValidating(false)
     }
   }
 
@@ -405,6 +491,50 @@ export function APIConfigForm({ onSuccess, onCancel }: Props) {
             </TabsContent>
 
             <TabsContent value="test" className="space-y-4">
+              {/* Validation Errors */}
+              {validationErrors.length > 0 && (
+                <Card className="border-red-200 bg-red-50/50">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-red-800 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5" />
+                      Validation Errors
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <ul className="space-y-1">
+                      {validationErrors.map((error, index) => (
+                        <li key={index} className="text-sm text-red-700 flex items-start gap-2">
+                          <span className="w-1 h-1 bg-red-500 rounded-full mt-2 flex-shrink-0" />
+                          {error}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Security Warnings */}
+              {securityWarnings.length > 0 && (
+                <Card className="border-yellow-200 bg-yellow-50/50">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-yellow-800 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5" />
+                      Security Warnings
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <ul className="space-y-1">
+                      {securityWarnings.map((warning, index) => (
+                        <li key={index} className="text-sm text-yellow-700 flex items-start gap-2">
+                          <span className="w-1 h-1 bg-yellow-500 rounded-full mt-2 flex-shrink-0" />
+                          {warning}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="font-medium">Test Connection</h3>
@@ -416,22 +546,61 @@ export function APIConfigForm({ onSuccess, onCancel }: Props) {
                   type="button"
                   variant="outline"
                   onClick={testConnection}
-                  disabled={loading || !formData.base_url}
+                  disabled={loading || !formData.base_url || validationErrors.length > 0}
                 >
-                  Test Connection
+                  {isValidating ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                      Testing...
+                    </>
+                  ) : (
+                    'Test Connection'
+                  )}
                 </Button>
               </div>
 
               {testResponse && (
                 <Card className={`p-4 ${testResponse.success ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-3">
                     <Badge variant={testResponse.success ? 'default' : 'destructive'}>
                       {testResponse.success ? 'Success' : 'Failed'}
                     </Badge>
+                    {testResponse.timestamp && (
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(testResponse.timestamp).toLocaleTimeString()}
+                      </span>
+                    )}
+                    {testResponse.data?.response_time && (
+                      <Badge variant="outline" className="text-xs">
+                        {testResponse.data.response_time}ms
+                      </Badge>
+                    )}
                   </div>
-                  <pre className="text-xs overflow-auto">
-                    {JSON.stringify(testResponse, null, 2)}
-                  </pre>
+                  
+                  {testResponse.success && testResponse.data && (
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Status:</span>
+                        <span className="font-medium">{testResponse.data.status} {testResponse.data.statusText}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Response Time:</span>
+                        <span className="font-medium">{testResponse.data.response_time}ms</span>
+                      </div>
+                      {testResponse.data.redirected && (
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Final URL:</span>
+                          <span className="font-mono text-xs">{testResponse.data.url}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
+                  {!testResponse.success && (
+                    <div className="text-sm text-red-700">
+                      <strong>Error:</strong> {testResponse.error}
+                    </div>
+                  )}
                 </Card>
               )}
 
@@ -439,8 +608,19 @@ export function APIConfigForm({ onSuccess, onCancel }: Props) {
                 <Button type="button" variant="outline" onClick={onCancel}>
                   Cancel
                 </Button>
-                <Button type="submit" disabled={loading}>
-                  {loading ? 'Creating...' : 'Create Integration'}
+                <Button 
+                  type="submit" 
+                  disabled={loading || validationErrors.length > 0}
+                  className="relative"
+                >
+                  {loading ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                      Creating...
+                    </>
+                  ) : (
+                    'Create Integration'
+                  )}
                 </Button>
               </div>
             </TabsContent>

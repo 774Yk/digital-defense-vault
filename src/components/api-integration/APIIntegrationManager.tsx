@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast'
 import { APIConfigForm } from './APIConfigForm'
 import { APIServiceCard } from './APIServiceCard'
 import { DynamicServiceRenderer } from './DynamicServiceRenderer'
+import { APIUsageLogs } from './APIUsageLogs'
 
 interface APIIntegration {
   id: string
@@ -430,19 +431,13 @@ export function APIIntegrationManager() {
         </TabsContent>
 
         <TabsContent value="logs" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>API Usage Analytics</CardTitle>
-              <CardDescription>
-                Monitor your API integrations performance and usage
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground text-center py-8">
-                Usage logs and analytics will be displayed here
-              </p>
-            </CardContent>
-          </Card>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-medium">API Usage Logs & Analytics</h3>
+            <p className="text-sm text-muted-foreground">
+              Monitor API performance, usage patterns, and troubleshoot issues
+            </p>
+          </div>
+          <APIUsageLogs />
         </TabsContent>
       </Tabs>
     </div>
