@@ -57,7 +57,8 @@ serve(async (req) => {
         response = await callGemini(message, conversationHistory, geminiKey);
         console.log('Gemini API successful, response length:', response.length);
       } catch (error) {
-        console.error('Gemini failed:', error.message);
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Gemini failed:', errorMsg);
         lastError = error;
       }
     }
@@ -69,7 +70,8 @@ serve(async (req) => {
         response = await callOpenAI(message, conversationHistory, openaiKey);
         console.log('OpenAI API successful, response length:', response.length);
       } catch (error) {
-        console.error('OpenAI failed:', error.message);
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+        console.error('OpenAI failed:', errorMsg);
         lastError = error;
       }
     }
@@ -81,13 +83,14 @@ serve(async (req) => {
         response = await callClaude(message, conversationHistory, anthropicKey);
         console.log('Anthropic API successful, response length:', response.length);
       } catch (error) {
-        console.error('Anthropic failed:', error.message);
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Anthropic failed:', errorMsg);
         lastError = error;
       }
     }
 
     if (!response) {
-      const errorMsg = lastError 
+      const errorMsg = lastError instanceof Error
         ? `All AI providers failed. Last error: ${lastError.message}`
         : 'No AI API keys are configured. Please add GEMINI_API_KEY, OPENAI_API_KEY, or ANTHROPIC_API_KEY in Supabase Edge Function Secrets.';
       throw new Error(errorMsg);
@@ -100,8 +103,9 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Error in ai-chat function:', error);
+    const errorMsg = error instanceof Error ? error.message : 'Failed to process AI request';
     return new Response(JSON.stringify({ 
-      error: error.message || 'Failed to process AI request' 
+      error: errorMsg 
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

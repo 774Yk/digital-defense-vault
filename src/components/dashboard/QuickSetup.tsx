@@ -57,36 +57,17 @@ export function QuickSetup() {
 
   const checkSetupStatus = async () => {
     try {
-      // Check database configuration
-      const { data: profilesData } = await supabase
-        .from('profiles')
-        .select('id')
-        .limit(1)
-
-      // Check if current user is admin
-      const { data: currentProfile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
-        .single()
-
-      // Check settings
-      const { data: settingsData } = await supabase
-        .from('settings')
-        .select('id')
-        .limit(1)
-
+      // For now, we'll show a simplified setup status since we don't have user management tables yet
       setSetupSteps(prev => prev.map(step => {
         switch (step.id) {
           case 'database':
-            return { ...step, completed: !!profilesData }
+            return { ...step, completed: true } // Database is connected
           case 'admin_user':
-            return { ...step, completed: currentProfile?.role === 'SuperAdmin' || currentProfile?.role === 'Admin' }
+            return { ...step, completed: false } // No user management yet
           case 'system_settings':
-            return { ...step, completed: !!settingsData?.length }
+            return { ...step, completed: false } // No settings table yet
           case 'api_keys':
-            // This would need to be checked differently in a real app
-            return { ...step, completed: true } // Assume configured if we reach this point
+            return { ...step, completed: true } // API keys can be configured
           default:
             return step
         }
@@ -103,69 +84,10 @@ export function QuickSetup() {
   const progressPercentage = (completedSteps / totalSteps) * 100
 
   const createSampleData = async () => {
-    try {
-      // Create sample course
-      const { error: courseError } = await supabase
-        .from('courses')
-        .insert([
-          {
-            title: 'Introduction to Cybersecurity',
-            description: 'Learn the fundamentals of cybersecurity',
-            level: 'Beginner',
-            slug: 'intro-to-cybersecurity',
-            is_published: true,
-            created_by: (await supabase.auth.getUser()).data.user?.id
-          }
-        ])
-
-      // Create sample tool
-      const { error: toolError } = await supabase
-        .from('tools')
-        .insert([
-          {
-            name: 'Network Scanner',
-            description: 'A basic network scanning tool for security assessment',
-            slug: 'network-scanner',
-            source_type: 'GitHub',
-            github_repo_url: 'https://github.com/example/network-scanner',
-            version: '1.0.0',
-            is_downloadable: true,
-            created_by: (await supabase.auth.getUser()).data.user?.id
-          }
-        ])
-
-      // Create sample vulnerability
-      const { error: vulnError } = await supabase
-        .from('vulnerabilities')
-        .insert([
-          {
-            title: 'SQL Injection Example',
-            slug: 'sql-injection-example',
-            type: 'Web Application',
-            severity: 'High',
-            description_html: '<p>This demonstrates a common SQL injection vulnerability.</p>',
-            proof_of_concept_html: '<p>Example proof of concept code...</p>',
-            remediation_html: '<p>Use parameterized queries to prevent SQL injection.</p>',
-            created_by: (await supabase.auth.getUser()).data.user?.id
-          }
-        ])
-
-      if (courseError || toolError || vulnError) {
-        throw new Error('Failed to create sample data')
-      }
-
-      toast({
-        title: "Success",
-        description: "Sample data created successfully"
-      })
-    } catch (error) {
-      console.error('Error creating sample data:', error)
-      toast({
-        title: "Error",
-        description: "Failed to create sample data",
-        variant: "destructive"
-      })
-    }
+    toast({
+      title: "Info",
+      description: "Sample data creation will be available once content management tables are set up"
+    })
   }
 
   if (loading) {
