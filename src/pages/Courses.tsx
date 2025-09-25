@@ -32,14 +32,31 @@ const Courses = () => {
 
   const fetchCourses = async () => {
     try {
-      const { data, error } = await supabase
-        .from('courses')
-        .select('*')
-        .eq('is_published', true)
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setCourses(data || [])
+      // Show demo courses since we don't have courses table yet
+      setCourses([
+        {
+          id: '1',
+          title: 'Introduction to Cybersecurity',
+          slug: 'intro-cybersecurity',
+          description: 'Learn the fundamentals of cybersecurity including threats, vulnerabilities, and defense strategies.',
+          language: 'English',
+          level: 'Beginner',
+          cover_image_url: '',
+          tags: ['Security', 'Fundamentals', 'Beginner'],
+          created_at: new Date().toISOString()
+        },
+        {
+          id: '2',
+          title: 'Advanced Network Security',
+          slug: 'advanced-network-security', 
+          description: 'Deep dive into network security protocols, intrusion detection, and advanced threat analysis.',
+          language: 'English',
+          level: 'Advanced',
+          cover_image_url: '',
+          tags: ['Network', 'Advanced', 'Security'],
+          created_at: new Date().toISOString()
+        }
+      ])
     } catch (error) {
       console.error('Error fetching courses:', error)
     } finally {

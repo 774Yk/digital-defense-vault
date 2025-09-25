@@ -672,6 +672,139 @@ export type Database = {
         }
         Relationships: []
       }
+      api_data_cache: {
+        Row: {
+          cache_key: string
+          created_at: string | null
+          endpoint_id: string | null
+          expires_at: string
+          id: string
+          response_data: Json
+        }
+        Insert: {
+          cache_key: string
+          created_at?: string | null
+          endpoint_id?: string | null
+          expires_at: string
+          id?: string
+          response_data: Json
+        }
+        Update: {
+          cache_key?: string
+          created_at?: string | null
+          endpoint_id?: string | null
+          expires_at?: string
+          id?: string
+          response_data?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_data_cache_endpoint_id_fkey"
+            columns: ["endpoint_id"]
+            isOneToOne: false
+            referencedRelation: "api_endpoints"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_endpoints: {
+        Row: {
+          cache_duration: number | null
+          created_at: string | null
+          endpoint_path: string
+          http_method: string | null
+          id: string
+          integration_id: string | null
+          is_active: boolean | null
+          metadata: Json | null
+          name: string
+          request_params: Json | null
+          response_format: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          cache_duration?: number | null
+          created_at?: string | null
+          endpoint_path: string
+          http_method?: string | null
+          id?: string
+          integration_id?: string | null
+          is_active?: boolean | null
+          metadata?: Json | null
+          name: string
+          request_params?: Json | null
+          response_format?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          cache_duration?: number | null
+          created_at?: string | null
+          endpoint_path?: string
+          http_method?: string | null
+          id?: string
+          integration_id?: string | null
+          is_active?: boolean | null
+          metadata?: Json | null
+          name?: string
+          request_params?: Json | null
+          response_format?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_endpoints_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "api_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_integrations: {
+        Row: {
+          auth_config: Json | null
+          auth_type: string | null
+          base_url: string
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          headers: Json | null
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          auth_config?: Json | null
+          auth_type?: string | null
+          base_url: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          headers?: Json | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          auth_config?: Json | null
+          auth_type?: string | null
+          base_url?: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          headers?: Json | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           account_id: string
@@ -710,6 +843,57 @@ export type Database = {
           title?: string
         }
         Relationships: []
+      }
+      api_usage_logs: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          endpoint_id: string | null
+          error_message: string | null
+          id: string
+          integration_id: string | null
+          request_url: string | null
+          response_status: number | null
+          response_time_ms: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          endpoint_id?: string | null
+          error_message?: string | null
+          id?: string
+          integration_id?: string | null
+          request_url?: string | null
+          response_status?: number | null
+          response_time_ms?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          endpoint_id?: string | null
+          error_message?: string | null
+          id?: string
+          integration_id?: string | null
+          request_url?: string | null
+          response_status?: number | null
+          response_time_ms?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_usage_logs_endpoint_id_fkey"
+            columns: ["endpoint_id"]
+            isOneToOne: false
+            referencedRelation: "api_endpoints"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "api_usage_logs_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "api_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       credit_balance: {
         Row: {

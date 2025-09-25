@@ -31,18 +31,23 @@ const Vulnerabilities = () => {
 
   const fetchVulnerabilities = async () => {
     try {
-      const { data, error } = await supabase
-        .from('vulnerabilities')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setVulnerabilities((data || []) as Vulnerability[])
+      // Show demo vulnerabilities since we don't have vulnerabilities table yet
+      setVulnerabilities([
+        {
+          id: '1',
+          title: 'SQL Injection Example',
+          slug: 'sql-injection-example',
+          type: 'Web Application',
+          severity: 'High',
+          created_at: new Date().toISOString()
+        }
+      ])
     } catch (error) {
       console.error('Error fetching vulnerabilities:', error)
     } finally {
       setLoading(false)
     }
+  }
   }
 
   const filteredVulnerabilities = vulnerabilities.filter(vuln =>

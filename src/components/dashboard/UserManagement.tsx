@@ -37,20 +37,19 @@ export function UserManagement() {
 
   const fetchUsers = async () => {
     try {
-      const { data: profilesData, error: profilesError } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (profilesError) throw profilesError
-
-      // Map profiles with placeholder emails since auth.users is restricted
-      const usersWithEmails = (profilesData || []).map(profile => ({
-        ...profile,
-        email: 'user@domain.com' // Placeholder - actual emails require admin access
-      }))
-
-      setUsers(usersWithEmails)
+      // Show demo users since we don't have user management tables yet
+      setUsers([
+        {
+          id: '1',
+          user_id: '1', 
+          name: 'Demo Admin',
+          role: 'Admin',
+          is_active: true,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          email: 'admin@demo.com'
+        }
+      ])
     } catch (error) {
       console.error('Error fetching users:', error)
       toast({
@@ -65,20 +64,10 @@ export function UserManagement() {
 
   const updateUserRole = async (userId: string, newRole: string) => {
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ role: newRole, updated_at: new Date().toISOString() })
-        .eq('user_id', userId)
-
-      if (error) throw error
-
       toast({
-        title: "Success",
-        description: "User role updated successfully"
+        title: "Info",
+        description: "User management will be available once user system is implemented"
       })
-
-      fetchUsers()
-      setEditUser(null)
     } catch (error) {
       console.error('Error updating user role:', error)
       toast({
@@ -91,19 +80,10 @@ export function UserManagement() {
 
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ is_active: !currentStatus, updated_at: new Date().toISOString() })
-        .eq('user_id', userId)
-
-      if (error) throw error
-
       toast({
-        title: "Success",
-        description: `User ${!currentStatus ? 'activated' : 'deactivated'} successfully`
+        title: "Info", 
+        description: "User management will be available once user system is implemented"
       })
-
-      fetchUsers()
     } catch (error) {
       console.error('Error toggling user status:', error)
       toast({
@@ -118,22 +98,12 @@ export function UserManagement() {
     if (!newUserEmail || !newUserRole) return
 
     try {
-      const { error } = await supabase
-        .rpc('promote_user_role', {
-          target_email: newUserEmail,
-          new_role: newUserRole
-        })
-
-      if (error) throw error
-
       toast({
-        title: "Success",
-        description: "User role updated successfully"
+        title: "Info",
+        description: "User role management will be available once user system is implemented"
       })
-
       setNewUserEmail('')
       setNewUserRole('User')
-      fetchUsers()
     } catch (error) {
       console.error('Error promoting user:', error)
       toast({

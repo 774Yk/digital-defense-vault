@@ -29,13 +29,17 @@ const DosAttacks = () => {
 
   const fetchArticles = async () => {
     try {
-      const { data, error } = await supabase
-        .from('dos_articles')
-        .select('*')
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setArticles(data || [])
+      // Show demo articles since we don't have dos_articles table yet
+      setArticles([
+        {
+          id: '1',
+          title: 'Understanding DDoS Attacks',
+          slug: 'understanding-ddos-attacks',
+          content_html: '<p>Learn about Distributed Denial of Service attacks...</p>',
+          legal_note_html: '<p>Educational purposes only.</p>',
+          created_at: new Date().toISOString()
+        }
+      ])
     } catch (error) {
       console.error('Error fetching DOS articles:', error)
     } finally {

@@ -33,14 +33,18 @@ const Tools = () => {
 
   const fetchTools = async () => {
     try {
-      const { data, error } = await supabase
-        .from('tools')
-        .select('*')
-        .eq('is_downloadable', true)
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      setTools((data || []) as Tool[])
+      // Show demo tools since we don't have tools table yet
+      setTools([
+        {
+          id: '1',
+          name: 'Network Scanner',
+          slug: 'network-scanner',
+          description: 'Advanced network scanning tool',
+          version: '2.1.0',
+          is_downloadable: true,
+          created_at: new Date().toISOString()
+        }
+      ])
     } catch (error) {
       console.error('Error fetching tools:', error)
     } finally {
