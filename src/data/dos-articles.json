@@ -1,0 +1,79 @@
+[
+  {
+    "id": "1",
+    "title": "ما هو DoS Attack وكيف يعمل؟",
+    "slug": "what-is-dos-attack",
+    "description": "تعرف على أساسيات هجمات حرمان الخدمة وكيف تؤثر على الأنظمة والشبكات",
+    "content_html": "<h2>ما هو DoS Attack؟</h2><p>DoS (Denial of Service) هو نوع من الهجمات السيبرانية يهدف إلى جعل الخدمة أو الموقع غير متاح للمستخدمين الشرعيين. يحدث هذا عن طريق إغراق النظام المستهدف بحركة مرور مفرطة أو استغلال ثغرات معينة.</p><h3>كيف يعمل DoS Attack؟</h3><ul><li><strong>الإغراق بالطلبات:</strong> إرسال كمية ضخمة من الطلبات لاستنزاف موارد الخادم</li><li><strong>استغلال الثغرات:</strong> استخدام عيوب في البرمجيات لتعطيل النظام</li><li><strong>استنزاف الموارد:</strong> تحميل النظام أكثر من طاقته التحملية</li></ul><h3>أنواع DoS Attacks</h3><p><strong>1. Volume-based attacks:</strong> تعتمد على إرسال كمية ضخمة من البيانات</p><p><strong>2. Protocol attacks:</strong> تستغل ضعف في بروتوكولات الشبكة</p><p><strong>3. Application layer attacks:</strong> تستهدف طبقة التطبيق مباشرة</p>",
+    "image": "/src/assets/dos-attack-diagram.jpg",
+    "category": "basics",
+    "tags": ["DoS", "Security", "Network", "Attack"],
+    "created_at": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": "2", 
+    "title": "ما هو DDoS Attack وكيف يختلف عن DoS؟",
+    "slug": "what-is-ddos-attack",
+    "description": "الفرق بين DDoS وDoS وكيف تعمل الهجمات الموزعة على نطاق أوسع",
+    "content_html": "<h2>ما هو DDoS Attack؟</h2><p>DDoS (Distributed Denial of Service) هو نسخة متطورة من DoS تستخدم شبكة من الأجهزة المختطفة (Botnet) لتنفيذ الهجوم من مصادر متعددة.</p><h3>الاختلافات الرئيسية:</h3><table><tr><th>الخاصية</th><th>DoS</th><th>DDoS</th></tr><tr><td>مصدر الهجوم</td><td>جهاز واحد</td><td>آلاف الأجهزة</td></tr><tr><td>سهولة الحجب</td><td>سهل</td><td>صعب جداً</td></tr><tr><td>القوة</td><td>محدودة</td><td>هائلة</td></tr><tr><td>التكلفة</td><td>منخفضة</td><td>عالية</td></tr></table><h3>كيف يعمل DDoS؟</h3><p><strong>1. إنشاء Botnet:</strong> إصابة آلاف الأجهزة بالبرمجيات الخبيثة</p><p><strong>2. التحكم المركزي:</strong> قيادة جميع الأجهزة من خادم واحد</p><p><strong>3. الهجوم المنسق:</strong> توجيه جميع الأجهزة للهجوم على نفس الهدف</p><h3>أمثلة على هجمات DDoS الشهيرة:</h3><ul><li>Mirai Botnet (2016)</li><li>GitHub Attack (2018) - 1.35 Tbps</li><li>Cloudflare Attack (2020) - 2.3 Tbps</li></ul>",
+    "image": "/src/assets/ddos-attack-diagram.jpg",
+    "category": "basics",
+    "tags": ["DDoS", "Botnet", "Distributed", "Attack"],
+    "created_at": "2024-01-16T10:00:00Z"
+  },
+  {
+    "id": "3",
+    "title": "مقارنة شاملة: DoS vs DDoS",
+    "slug": "dos-vs-ddos-comparison", 
+    "description": "مقارنة تفصيلية بين DoS وDDoS من حيث التقنية وحجم التأثير وأساليب الحماية",
+    "content_html": "<h2>المقارنة الشاملة بين DoS و DDoS</h2><h3>من ناحية التقنية:</h3><h4>DoS Attack:</h4><ul><li>يستخدم جهاز واحد أو عدد محدود من الأجهزة</li><li>سهولة في التتبع والحجب</li><li>يعتمد على قوة جهاز واحد</li><li>محدود بسرعة اتصال المهاجم</li></ul><h4>DDoS Attack:</h4><ul><li>يستخدم آلاف إلى ملايين الأجهزة</li><li>صعوبة في التتبع والحجب</li><li>قوة هجوم مضاعفة</li><li>غير محدود بسرعة اتصال واحدة</li></ul><h3>من ناحية حجم التأثير:</h3><table class='comparison-table'><tr><th>المعيار</th><th>DoS</th><th>DDoS</th></tr><tr><td>مدة التوقف</td><td>دقائق إلى ساعات</td><td>ساعات إلى أيام</td></tr><tr><td>الخسائر المالية</td><td>محدودة</td><td>هائلة (ملايين الدولارات)</td></tr><tr><td>تأثر المستخدمين</td><td>محلي</td><td>عالمي</td></tr><tr><td>صعوبة الاسترداد</td><td>سهلة</td><td>معقدة</td></tr></table><h3>من ناحية أساليب الحماية:</h3><h4>الحماية من DoS:</h4><ul><li>Firewall بسيط</li><li>Rate Limiting</li><li>IP Blacklisting</li><li>موارد خادم إضافية</li></ul><h4>الحماية من DDoS:</h4><ul><li>CDN متقدم</li><li>Anti-DDoS Services</li><li>Traffic Analysis</li><li>Geo-blocking</li><li>Machine Learning Detection</li></ul>",
+    "image": "/src/assets/dos-vs-ddos-comparison.jpg",
+    "category": "comparison",
+    "tags": ["Comparison", "DoS", "DDoS", "Analysis"],
+    "created_at": "2024-01-17T10:00:00Z"
+  },
+  {
+    "id": "4",
+    "title": "الحماية بـ Firewalls ضد DoS/DDoS",
+    "slug": "firewall-protection-dos-ddos",
+    "description": "كيفية استخدام جدران الحماية لمنع والتخفيف من هجمات DoS وDDoS",
+    "content_html": "<h2>الحماية بجدران الحماية (Firewalls)</h2><p>جدران الحماية هي خط الدفاع الأول ضد هجمات DoS/DDoS وتوفر عدة طرق للحماية.</p><h3>أنواع Firewalls للحماية:</h3><h4>1. Network Firewalls:</h4><ul><li>فلترة الحزم على مستوى الشبكة</li><li>حجب IP addresses المشبوهة</li><li>تحديد معدل الاتصالات</li></ul><h4>2. Application Firewalls (WAF):</h4><ul><li>حماية على مستوى التطبيق</li><li>تحليل محتوى HTTP/HTTPS</li><li>منع هجمات Layer 7</li></ul><h4>3. Cloud-based Firewalls:</h4><ul><li>حماية موزعة</li><li>تحليل ذكي للترافيك</li><li>استجابة سريعة للتهديدات</li></ul><h3>إعدادات الحماية الأساسية:</h3><pre><code># iptables rules for DoS protection\n# Limit connections per IP\niptables -A INPUT -p tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT\n\n# Drop invalid packets\niptables -A INPUT -m state --state INVALID -j DROP\n\n# Limit ping requests\niptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/s -j ACCEPT</code></pre><h3>أفضل الممارسات:</h3><ul><li>تحديث قواعد الFirewall بانتظام</li><li>مراقبة السجلات (Logs) بشكل مستمر</li><li>استخدام White/Black Lists</li><li>تطبيق Rate Limiting</li><li>إعداد تنبيهات فورية</li></ul>",
+    "image": "/src/assets/firewall-protection.jpg", 
+    "category": "protection",
+    "tags": ["Firewall", "Protection", "Network Security", "Configuration"],
+    "created_at": "2024-01-18T10:00:00Z"
+  },
+  {
+    "id": "5",
+    "title": "Rate Limiting: التحكم في معدل الطلبات",
+    "slug": "rate-limiting-protection",
+    "description": "استخدام تقنيات Rate Limiting للحد من تأثير هجمات DoS والتحكم في حركة المرور",
+    "content_html": "<h2>Rate Limiting للحماية من DoS/DDoS</h2><p>Rate Limiting هو تقنية للتحكم في عدد الطلبات التي يمكن لمستخدم أو IP معين إرسالها في فترة زمنية محددة.</p><h3>أنواع Rate Limiting:</h3><h4>1. IP-based Rate Limiting:</h4><ul><li>تحديد عدد الطلبات لكل عنوان IP</li><li>مفيد ضد DoS البسيط</li><li>سهل التطبيق والإدارة</li></ul><h4>2. User-based Rate Limiting:</h4><ul><li>تحديد الطلبات لكل مستخدم مسجل</li><li>أكثر دقة من IP-based</li><li>يتطلب نظام مصادقة</li></ul><h4>3. API Rate Limiting:</h4><ul><li>حماية APIs من الاستخدام المفرط</li><li>تحديد الطلبات لكل API key</li><li>ضروري للخدمات التجارية</li></ul><h3>تطبيقات Rate Limiting:</h3><h4>Nginx Configuration:</h4><pre><code># Nginx rate limiting\nhttp {\n    limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;\n    \n    server {\n        location / {\n            limit_req zone=one burst=5 nodelay;\n        }\n    }\n}</code></pre><h4>Apache Configuration:</h4><pre><code># Apache mod_evasive\n&lt;IfModule mod_evasive24.c&gt;\n    DOSHashTableSize    3097\n    DOSPageCount        2\n    DOSPageInterval     1\n    DOSSiteCount        50\n    DOSSiteInterval     1\n    DOSBlockingPeriod   600\n&lt;/IfModule&gt;</code></pre><h3>Best Practices:</h3><ul><li>تحديد حدود واقعية لا تؤثر على المستخدمين الشرعيين</li><li>استخدام فترات زمنية متدرجة</li><li>تطبيق White Lists للIPs الموثوقة</li><li>مراقبة الأداء بعد التطبيق</li></ul>",
+    "image": "/src/assets/rate-limiting.jpg",
+    "category": "protection", 
+    "tags": ["Rate Limiting", "Traffic Control", "Server Configuration", "DoS Prevention"],
+    "created_at": "2024-01-19T10:00:00Z"
+  },
+  {
+    "id": "6",
+    "title": "CDN للحماية من DDoS: Cloudflare & Akamai",
+    "slug": "cdn-ddos-protection",
+    "description": "كيف تستخدم شبكات توزيع المحتوى (CDN) مثل Cloudflare وAkamai للحماية من DDoS",
+    "content_html": "<h2>حماية CDN ضد DDoS</h2><p>شبكات توزيع المحتوى (CDN) توفر حماية قوية ضد هجمات DDoS من خلال توزيع الحمولة عبر خوادم متعددة حول العالم.</p><h3>كيف تعمل حماية CDN:</h3><h4>1. Traffic Distribution:</h4><ul><li>توزيع الحمولة عبر مئات الخوادم</li><li>امتصاص الترافيك الضار</li><li>تقليل التأثير على الخادم الأصلي</li></ul><h4>2. Intelligent Filtering:</h4><ul><li>تحليل الترافيك في الوقت الفعلي</li><li>اكتشاف الأنماط المشبوهة</li><li>حجب الطلبات الضارة تلقائياً</li></ul><h4>3. Geographic Filtering:</h4><ul><li>حجب الترافيك من مناطق معينة</li><li>إعادة توجيه الطلبات الشرعية</li><li>تحليل جيولوجي للهجمات</li></ul><h3>مقارنة أشهر خدمات CDN:</h3><table><tr><th>الخدمة</th><th>السعة</th><th>المميزات</th><th>السعر</th></tr><tr><td>Cloudflare</td><td>100+ Tbps</td><td>AI Detection، مجاني للأساسي</td><td>$$$</td></tr><tr><td>Akamai</td><td>200+ Tbps</td><td>Enterprise Focus، تحليل متقدم</td><td>$$$$</td></tr><tr><td>AWS CloudFront</td><td>150+ Tbps</td><td>تكامل AWS، مرونة عالية</td><td>$$$</td></tr></table><h3>إعداد Cloudflare للحماية:</h3><ol><li><strong>تفعيل Proxy Mode:</strong> تمرير كامل الترافيك عبر Cloudflare</li><li><strong>إعداد Security Level:</strong> اختيار مستوى الحماية المناسب</li><li><strong>تفعيل Rate Limiting:</strong> تحديد معدل الطلبات المسموح</li><li><strong>إعداد Firewall Rules:</strong> قواعد مخصصة لحجب الهجمات</li></ol><h3>مميزات إضافية:</h3><ul><li><strong>Bot Management:</strong> اكتشاف ومنع البوتات الضارة</li><li><strong>DDoS Analytics:</strong> تقارير تفصيلية عن الهجمات</li><li><strong>Always Online:</strong> إبقاء الموقع متاحاً حتى أثناء الهجوم</li></ul>",
+    "image": "/src/assets/cdn-protection.jpg",
+    "category": "protection",
+    "tags": ["CDN", "Cloudflare", "Akamai", "DDoS Protection", "Traffic Distribution"],
+    "created_at": "2024-01-20T10:00:00Z"
+  },
+  {
+    "id": "7",
+    "title": "أنظمة كشف التسلل (IDS) ضد DoS/DDoS",
+    "slug": "ids-intrusion-detection-systems", 
+    "description": "استخدام أنظمة كشف التسلل لرصد ومنع هجمات DoS وDDoS قبل حدوثها",
+    "content_html": "<h2>أنظمة كشف التسلل (IDS)</h2><p>أنظمة كشف التسلل تراقب الشبكة باستمرار لاكتشاف الأنشطة المشبوهة والهجمات المحتملة.</p><h3>أنواع IDS:</h3><h4>1. Network-based IDS (NIDS):</h4><ul><li>مراقبة حركة الشبكة في الوقت الفعلي</li><li>تحليل حزم البيانات</li><li>اكتشاف أنماط الهجمات المعروفة</li></ul><h4>2. Host-based IDS (HIDS):</h4><ul><li>مراقبة نشاط النظام المحلي</li><li>تحليل ملفات السجل</li><li>رصد التغييرات في النظام</li></ul><h4>3. Hybrid IDS:</h4><ul><li>دمج NIDS و HIDS</li><li>حماية شاملة</li><li>دقة أعلى في الاكتشاف</li></ul><h3>أشهر حلول IDS:</h3><h4>Snort (مفتوح المصدر):</h4><pre><code># Snort rule for DoS detection\nalert tcp any any -&gt; $HOME_NET 80 (msg:\"Possible DoS Attack\"; \n    flags:S; threshold: type both, track by_src, count 100, seconds 60; \n    sid:1000001; rev:1;)</code></pre><h4>Suricata (مفتوح المصدر):</h4><ul><li>أداء عالي ومعالجة متوازية</li><li>دعم IPv6</li><li>تحديثات أمنية منتظمة</li></ul><h4>Cisco IPS:</h4><ul><li>حل تجاري متقدم</li><li>تكامل مع معدات Cisco</li><li>إدارة مركزية</li></ul><h3>ميزات الكشف المتقدمة:</h3><ul><li><strong>Signature-based Detection:</strong> مقارنة مع قاعدة بيانات الهجمات</li><li><strong>Anomaly-based Detection:</strong> اكتشاف السلوك غير الطبيعي</li><li><strong>Machine Learning:</strong> تعلم أنماط جديدة من الهجمات</li><li><strong>Behavioral Analysis:</strong> تحليل سلوك المستخدمين والأنظمة</li></ul><h3>خطوات تطبيق IDS:</h3><ol><li>تحديد نقاط المراقبة الحساسة</li><li>إعداد قواعد الكشف المناسبة</li><li>ضبط حساسية النظام</li><li>إعداد التنبيهات والاستجابة</li><li>مراجعة وتحديث القواعد دورياً</li></ol>",
+    "image": "/src/assets/ids-systems.jpg",
+    "category": "protection",
+    "tags": ["IDS", "Intrusion Detection", "Network Security", "Monitoring"],
+    "created_at": "2024-01-21T10:00:00Z"
+  }
+]
