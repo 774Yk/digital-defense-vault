@@ -34,7 +34,9 @@ import { UserManagement } from '@/components/dashboard/UserManagement'
 import { QuickSetup } from '@/components/dashboard/QuickSetup'
 import CoursesGrid from '@/components/dashboard/CoursesGrid'
 import CourseManagement from '@/components/dashboard/CourseManagement'
+import { ToolManagement } from '@/components/dashboard/ToolManagement'
 import coursesData from '@/data/courses.json'
+import toolsData from '@/data/tools.json'
 
 interface Course {
   id: string
@@ -44,6 +46,22 @@ interface Course {
   link: string
   thumbnail: string
   embedAllowed: boolean
+}
+
+interface Tool {
+  id: string
+  name: string
+  description: string
+  category: string
+  icon: string
+  source_type: string
+  website_url: string
+  download_url: string
+  github_url: string
+  tags: string[]
+  is_downloadable: boolean
+  version: string
+  created_at: string
 }
 
 interface UserProfile {
@@ -57,6 +75,7 @@ const Dashboard = () => {
   const { user, loading } = useAuth()
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [courses, setCourses] = useState<Course[]>(coursesData as Course[])
+  const [toolsState, setToolsState] = useState<Tool[]>(toolsData as Tool[])
   const [stats, setStats] = useState({
     courses: 0,
     tools: 0,
@@ -79,8 +98,12 @@ const Dashboard = () => {
   }, [user])
 
   useEffect(() => {
-    setStats(prev => ({ ...prev, courses: courses.length }))
-  }, [courses])
+    setStats(prev => ({ 
+      ...prev, 
+      courses: courses.length,
+      tools: toolsState.length
+    }))
+  }, [courses, toolsState])
 
   const fetchProfile = async () => {
     try {
@@ -313,28 +336,7 @@ const Dashboard = () => {
                 </TabsContent>
 
                 <TabsContent value="tools" className="space-y-6">
-                  <Card className="border-primary/20 bg-card/60 backdrop-blur-md">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="flex items-center gap-2">
-                          <Wrench className="w-5 h-5 text-primary" />
-                          Manage Tools
-                        </CardTitle>
-                        <Button className="gap-2">
-                          <Plus className="w-4 h-4" />
-                          Add Tool
-                        </Button>
-                      </div>
-                      <CardDescription>
-                        Upload security tools, link GitHub repositories, and manage download permissions.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-center py-8">
-                        Tool management interface will be implemented here.
-                      </p>
-                    </CardContent>
-                  </Card>
+                  <ToolManagement tools={toolsState} setTools={setToolsState} />
                 </TabsContent>
 
                 <TabsContent value="vulnerabilities" className="space-y-6">

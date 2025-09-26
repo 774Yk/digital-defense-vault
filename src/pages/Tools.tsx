@@ -1,24 +1,27 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { supabase } from '@/integrations/supabase/client'
-import { Wrench, Search, Github, Download, ExternalLink } from 'lucide-react'
+import { ExternalLink, Download, Github, Search, Wrench } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import { ToolCard } from '@/components/dashboard/ToolCard'
+import toolsData from '@/data/tools.json'
 
 interface Tool {
   id: string
   name: string
-  slug: string
   description: string
-  source_type: 'github' | 'local'
-  github_repo_url?: string
-  version?: string
-  is_downloadable: boolean
+  category: string
+  icon: string
+  source_type: string
+  website_url: string
+  download_url: string
+  github_url: string
   tags: string[]
+  is_downloadable: boolean
+  version: string
   created_at: string
 }
 
@@ -28,35 +31,14 @@ const Tools = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchTools()
+    setTools(toolsData as Tool[])
+    setLoading(false)
   }, [])
-
-  const fetchTools = async () => {
-    try {
-      // Show demo tools since we don't have tools table yet
-      setTools([
-        {
-          id: '1',
-          name: 'Network Scanner',
-          slug: 'network-scanner',
-          description: 'Advanced network scanning tool',
-          version: '2.1.0',
-          source_type: 'local',
-          tags: ['network', 'scanning', 'security'],
-          is_downloadable: true,
-          created_at: new Date().toISOString()
-        }
-      ])
-    } catch (error) {
-      console.error('Error fetching tools:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const filteredTools = tools.filter(tool =>
     tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    tool.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tool.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
     tool.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 

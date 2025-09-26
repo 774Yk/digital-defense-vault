@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import SocialLinksSection from "@/components/sections/SocialLinksSection";
 import QuickSectionsGrid from "@/components/sections/QuickSectionsGrid";
+import ToolsSection from "@/components/sections/ToolsSection";
 
 const Index = () => {
   return (
@@ -11,6 +12,7 @@ const Index = () => {
       <main>
         <HeroSection />
         <SocialLinksSection />
+        <ToolsSection />
         <QuickSectionsGrid />
       </main>
       <Footer />
