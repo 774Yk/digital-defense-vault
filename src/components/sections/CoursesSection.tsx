@@ -1,27 +1,26 @@
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { BookOpen, Search, ExternalLink, Cloud, FileText, Play } from 'lucide-react';
+import { BookOpen, Search } from 'lucide-react';
+import CourseCard from '@/components/dashboard/CourseCard';
 import coursesData from '@/data/courses.json';
 
-interface Course {
+type Course = {
   id: string;
   title: string;
   description: string;
-  platform: string;
+  platform: 'Udemy' | 'OneDrive' | 'Mega';
   link: string;
   thumbnail: string;
   embedAllowed: boolean;
-}
+};
 
 const CoursesSection = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    setCourses(coursesData);
+    setCourses(coursesData as Course[]);
   }, []);
 
   const filteredCourses = courses.filter(course =>
@@ -29,36 +28,6 @@ const CoursesSection = () => {
     course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
     course.platform.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const getPlatformIcon = (platform: string) => {
-    switch (platform.toLowerCase()) {
-      case 'udemy':
-        return <FileText className="w-4 h-4" />;
-      case 'onedrive':
-        return <Cloud className="w-4 h-4" />;
-      case 'mega':
-        return <div className="w-4 h-4 bg-primary rounded text-xs font-bold flex items-center justify-center text-background">M</div>;
-      default:
-        return <BookOpen className="w-4 h-4" />;
-    }
-  };
-
-  const getPlatformColor = (platform: string) => {
-    switch (platform.toLowerCase()) {
-      case 'udemy':
-        return 'bg-purple-500/20 text-purple-400 border-purple-500/50';
-      case 'onedrive':
-        return 'bg-blue-500/20 text-blue-400 border-blue-500/50';
-      case 'mega':
-        return 'bg-red-500/20 text-red-400 border-red-500/50';
-      default:
-        return 'bg-primary/20 text-primary border-primary/50';
-    }
-  };
-
-  const handleCourseClick = (course: Course) => {
-    window.open(course.link, '_blank', 'noopener,noreferrer');
-  };
 
   return (
     <section className="py-16 bg-card/10">
@@ -99,49 +68,10 @@ const CoursesSection = () => {
         {/* Courses Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredCourses.slice(0, 12).map((course) => (
-            <Card 
+            <CourseCard 
               key={course.id} 
-              className="group border-primary/20 bg-card/60 backdrop-blur-md hover:border-primary/50 transition-all duration-300 hover:shadow-glow cursor-pointer"
-              onClick={() => handleCourseClick(course)}
-            >
-              <div className="aspect-video bg-muted/20 rounded-t-lg overflow-hidden">
-                <img 
-                  src={course.thumbnail} 
-                  alt={course.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-              </div>
-              <CardHeader className="pb-2">
-                <div className="flex items-start justify-between gap-2">
-                  <CardTitle className="text-sm font-semibold line-clamp-2 group-hover:text-primary transition-colors">
-                    {course.title}
-                  </CardTitle>
-                  <Badge className={`${getPlatformColor(course.platform)} text-xs shrink-0`}>
-                    <div className="flex items-center gap-1">
-                      {getPlatformIcon(course.platform)}
-                      {course.platform}
-                    </div>
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <CardDescription className="text-xs line-clamp-3 mb-4">
-                  {course.description}
-                </CardDescription>
-                <Button 
-                  size="sm" 
-                  className="w-full gap-2 text-xs"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCourseClick(course);
-                  }}
-                >
-                  {course.embedAllowed ? <Play className="w-3 h-3" /> : <ExternalLink className="w-3 h-3" />}
-                  {course.embedAllowed ? 'Watch Course' : 'Open Course'}
-                </Button>
-              </CardContent>
-            </Card>
+              course={course}
+            />
           ))}
         </div>
 
