@@ -7,6 +7,7 @@ import { Zap, Search, AlertTriangle, ExternalLink, Shield, Globe, Eye } from 'lu
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ArticleCard from '@/components/articles/ArticleCard'
+import ArticleDetail from '@/components/articles/ArticleDetail'
 import articlesData from '@/data/dos-articles.json'
 
 // Import images
@@ -42,6 +43,8 @@ const DosAttacks = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  const [selectedArticle, setSelectedArticle] = useState<DosArticle | null>(null)
+  const [isArticleDetailOpen, setIsArticleDetailOpen] = useState(false)
 
   // Image mapping
   const imageMap: Record<string, string> = {
@@ -111,8 +114,16 @@ const DosAttacks = () => {
   const categories = ['all', ...Array.from(new Set(articles.map(article => article.category)))]
   
   const handleReadMore = (slug: string) => {
-    // For now, we'll show an alert. In a real app, this would navigate to article detail page
-    alert(`Navigate to article: ${slug}`)
+    const article = articles.find(a => a.slug === slug)
+    if (article) {
+      setSelectedArticle(article)
+      setIsArticleDetailOpen(true)
+    }
+  }
+
+  const handleCloseArticleDetail = () => {
+    setIsArticleDetailOpen(false)
+    setSelectedArticle(null)
   }
 
   const handleExternalLink = (url: string) => {
@@ -308,6 +319,13 @@ const DosAttacks = () => {
       </main>
 
       <Footer />
+      
+      {/* Article Detail Modal */}
+      <ArticleDetail 
+        article={selectedArticle}
+        isOpen={isArticleDetailOpen}
+        onClose={handleCloseArticleDetail}
+      />
     </div>
   )
 }
