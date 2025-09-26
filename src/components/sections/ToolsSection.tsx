@@ -3,8 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Wrench, ExternalLink, Download, Search, Github } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Wrench, ExternalLink, Download, Search, Github, Filter } from 'lucide-react'
 import toolsData from '@/data/tools.json'
+import additionalTools from '@/data/additional-tools.json'
+import extendedTools from '@/data/extended-tools.json'
+import cryptoTools from '@/data/crypto-tools.json'
+import networkTools from '@/data/network-tools.json'
+import osintTools from '@/data/osint-tools.json'
 
 interface Tool {
   id: string
@@ -25,30 +31,51 @@ interface Tool {
 const ToolsSection = () => {
   const [tools, setTools] = useState<Tool[]>([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [filteredTools, setFilteredTools] = useState<Tool[]>([])
   const [loading, setLoading] = useState(true)
 
+  // Combine all tool datasets
+  const allToolsData = [
+    ...toolsData,
+    ...additionalTools,
+    ...extendedTools,
+    ...cryptoTools,
+    ...networkTools,
+    ...osintTools
+  ]
+
   useEffect(() => {
     const loadTools = () => {
-      setTools(toolsData as Tool[])
+      setTools(allToolsData as Tool[])
       setLoading(false)
     }
     loadTools()
   }, [])
 
   useEffect(() => {
-    if (searchTerm.trim() === '') {
-      setFilteredTools(tools.slice(0, 8)) // Show first 8 tools on main page
-    } else {
-      const filtered = tools.filter(tool =>
+    let filtered = tools
+
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(tool => tool.category === selectedCategory)
+    }
+
+    // Filter by search term
+    if (searchTerm.trim() !== '') {
+      filtered = filtered.filter(tool =>
         tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tool.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tool.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
       )
-      setFilteredTools(filtered.slice(0, 8))
     }
-  }, [tools, searchTerm])
+
+    setFilteredTools(filtered.slice(0, 12)) // Show first 12 tools on main page
+  }, [tools, searchTerm, selectedCategory])
+
+  // Get unique categories
+  const categories = ['all', ...Array.from(new Set(tools.map(tool => tool.category)))]
 
   const handleOpenTool = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer')
@@ -70,17 +97,31 @@ const ToolsSection = () => {
           </p>
         </div>
 
-        {/* Search */}
+        {/* Search and Filters */}
         <div className="max-w-md mx-auto mb-12">
-          <div className="relative">
-            <Search className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search tools..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-card/50 border-primary/20"
-            />
+          <div className="space-y-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search tools..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 bg-card/50 border-primary/20"
+              />
+            </div>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full bg-card/50 border-primary/20">
+                <SelectValue placeholder="All Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category === 'all' ? 'All Categories' : category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -188,7 +229,7 @@ const ToolsSection = () => {
                 className="gap-2"
               >
                 <Wrench className="w-4 h-4" />
-                View All Tools ({tools.length}+)
+                View All Tools ({allToolsData.length}+)
               </Button>
             </div>
           </>
