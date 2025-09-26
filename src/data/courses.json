@@ -1,0 +1,56 @@
+[
+  {
+    "id": "1",
+    "title": "Cybersecurity Fundamentals",
+    "description": "Complete introduction to cybersecurity concepts, threat landscape, and basic protection methods.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/cybersecurity-fundamentals",
+    "thumbnail": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "2", 
+    "title": "Advanced Penetration Testing",
+    "description": "Master advanced penetration testing techniques using industry-standard tools and methodologies.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-penetration-testing-course",
+    "thumbnail": "https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "3",
+    "title": "Network Security Essentials", 
+    "description": "Learn network security fundamentals, firewall configuration, and intrusion detection systems.",
+    "platform": "Mega",
+    "link": "https://mega.nz/network-security-course",
+    "thumbnail": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "4",
+    "title": "Ethical Hacking & Bug Bounty",
+    "description": "Complete guide to ethical hacking and bug bounty hunting with real-world examples.",
+    "platform": "Udemy", 
+    "link": "https://www.udemy.com/course/ethical-hacking-bug-bounty",
+    "thumbnail": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "5",
+    "title": "Digital Forensics & Incident Response",
+    "description": "Learn digital forensics techniques and incident response procedures for cybersecurity incidents.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-digital-forensics-course", 
+    "thumbnail": "https://images.unsplash.com/photo-1551808525-51a94da548ce?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "6",
+    "title": "Malware Analysis Workshop",
+    "description": "Hands-on malware analysis using reverse engineering tools and sandboxing techniques.",
+    "platform": "Mega",
+    "link": "https://mega.nz/malware-analysis-workshop",
+    "thumbnail": "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  }
+]

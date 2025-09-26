@@ -32,6 +32,7 @@ import { DashboardFilters, FilterState } from '@/components/dashboard/DashboardF
 import { InteractiveActions } from '@/components/dashboard/InteractiveActions'
 import { UserManagement } from '@/components/dashboard/UserManagement'
 import { QuickSetup } from '@/components/dashboard/QuickSetup'
+import CoursesGrid from '@/components/dashboard/CoursesGrid'
 
 interface UserProfile {
   id: string
@@ -275,28 +276,24 @@ const Dashboard = () => {
             {canEdit && (
               <>
                 <TabsContent value="courses" className="space-y-6">
-                  <Card className="border-primary/20 bg-card/60 backdrop-blur-md">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="flex items-center gap-2">
-                          <BookOpen className="w-5 h-5 text-primary" />
-                          Manage Courses
-                        </CardTitle>
-                        <Button className="gap-2">
-                          <Plus className="w-4 h-4" />
-                          Add Course
-                        </Button>
-                      </div>
-                      <CardDescription>
-                        Create and manage cybersecurity courses with lessons, videos, and downloadable content.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-center py-8">
-                        Course management interface will be implemented here.
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h2 className="text-2xl font-cyber font-bold">
+                        <span className="bg-gradient-cyber bg-clip-text text-transparent">
+                          Course Library
+                        </span>
+                      </h2>
+                      <p className="text-muted-foreground mt-1">
+                        Access comprehensive cybersecurity courses from multiple platforms
                       </p>
-                    </CardContent>
-                  </Card>
+                    </div>
+                    <Button className="gap-2">
+                      <Plus className="w-4 h-4" />
+                      Add Course
+                    </Button>
+                  </div>
+                  
+                  <CoursesGrid />
                 </TabsContent>
 
                 <TabsContent value="tools" className="space-y-6">
