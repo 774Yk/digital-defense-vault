@@ -12,10 +12,7 @@ interface Message {
 }
 
 serve(async (req) => {
-  console.log('=== AI CHAT FUNCTION START ===');
-  console.log('Method:', req.method);
-  console.log('URL:', req.url);
-  console.log('Headers:', Object.fromEntries(req.headers.entries()));
+  console.log('AI Chat function called with method:', req.method);
   
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -148,7 +145,7 @@ User message: ${message}`
 
   console.log('Sending request to Gemini API');
   
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
