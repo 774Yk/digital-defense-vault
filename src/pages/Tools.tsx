@@ -123,74 +123,9 @@ const Tools = () => {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredTools.map((tool) => (
-                  <Card key={tool.id} className="group border-primary/20 bg-card/60 backdrop-blur-md hover:border-primary/50 transition-all duration-300">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <CardTitle className="group-hover:text-primary transition-colors">
-                          {tool.name}
-                        </CardTitle>
-                        <div className="flex items-center gap-2">
-                          {tool.source_type === 'github' && (
-                            <Badge variant="outline" className="text-xs gap-1">
-                              <Github className="w-3 h-3" />
-                              GitHub
-                            </Badge>
-                          )}
-                          {tool.version && (
-                            <Badge variant="secondary" className="text-xs">
-                              v{tool.version}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                      <CardDescription className="text-sm">
-                        {tool.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <div className="flex flex-wrap gap-1">
-                          {tool.tags.slice(0, 3).map((tag) => (
-                            <Badge key={tag} variant="outline" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                          {tool.tags.length > 3 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{tool.tags.length - 3}
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="text-xs text-muted-foreground">
-                            Educational Use Only
-                          </div>
-                          <div className="flex gap-2">
-                            <Button variant="outline" size="sm" asChild>
-                              <Link to={`/tools/${tool.slug}`}>
-                                View Details
-                              </Link>
-                            </Button>
-                            {tool.source_type === 'github' && tool.github_repo_url ? (
-                              <Button size="sm" className="gap-1" asChild>
-                                <a href={tool.github_repo_url} target="_blank" rel="noopener noreferrer">
-                                  <ExternalLink className="w-3 h-3" />
-                                  GitHub
-                                </a>
-                              </Button>
-                            ) : (
-                              <Button size="sm" className="gap-1">
-                                <Download className="w-3 h-3" />
-                                Download
-                              </Button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <ToolCard key={tool.id} tool={tool} />
                 ))}
               </div>
             )}
