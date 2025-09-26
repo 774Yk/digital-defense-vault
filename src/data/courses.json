@@ -1,6 +1,51 @@
 [
   {
     "id": "1",
+    "title": "Complete C++ Programming Course - Beginner to Advanced",
+    "description": "Master C++ from basics to advanced concepts with hands-on projects and real-world applications.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/complete-cpp-programming",
+    "thumbnail": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "2",
+    "title": "Python for Everybody Specialization",
+    "description": "Learn Python programming from scratch and build real applications with data structures and algorithms.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-python-specialization",
+    "thumbnail": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "3",
+    "title": "Advanced C++ Programming and Memory Management",
+    "description": "Deep dive into advanced C++ features, memory management, templates, and performance optimization.",
+    "platform": "Mega",
+    "link": "https://mega.nz/advanced-cpp-course",
+    "thumbnail": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "4",
+    "title": "Python Data Science and Machine Learning",
+    "description": "Complete Python course for data science with NumPy, Pandas, Matplotlib, and Scikit-learn.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/python-data-science-ml",
+    "thumbnail": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "5",
+    "title": "Object-Oriented Programming with C++",
+    "description": "Master OOP concepts in C++ with classes, inheritance, polymorphism, and design patterns.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-cpp-oop-course",
+    "thumbnail": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "6",
     "title": "Cybersecurity Fundamentals",
     "description": "Complete introduction to cybersecurity concepts, threat landscape, and basic protection methods.",
     "platform": "Udemy",
@@ -9,48 +54,399 @@
     "embedAllowed": false
   },
   {
-    "id": "2", 
-    "title": "Advanced Penetration Testing",
-    "description": "Master advanced penetration testing techniques using industry-standard tools and methodologies.",
+    "id": "7",
+    "title": "Web Development with HTML, CSS & JavaScript",
+    "description": "Build modern websites from scratch using HTML5, CSS3, and JavaScript ES6+.",
+    "platform": "Mega",
+    "link": "https://mega.nz/web-development-course",
+    "thumbnail": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "8",
+    "title": "React.js Complete Course",
+    "description": "Master React.js from basics to advanced with hooks, context API, and modern development practices.",
     "platform": "OneDrive",
-    "link": "https://onedrive.com/direct-penetration-testing-course",
-    "thumbnail": "https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=400&h=250&fit=crop",
+    "link": "https://onedrive.com/direct-react-course",
+    "thumbnail": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop",
     "embedAllowed": true
   },
   {
-    "id": "3",
-    "title": "Network Security Essentials", 
-    "description": "Learn network security fundamentals, firewall configuration, and intrusion detection systems.",
+    "id": "9",
+    "title": "Node.js and Express.js Development",
+    "description": "Build scalable backend applications with Node.js and Express.js including REST APIs.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/nodejs-express-development",
+    "thumbnail": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "10",
+    "title": "Database Design and MySQL",
+    "description": "Learn database design principles and master MySQL for efficient data management.",
     "platform": "Mega",
-    "link": "https://mega.nz/network-security-course",
+    "link": "https://mega.nz/database-mysql-course",
+    "thumbnail": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "11",
+    "title": "Java Programming Masterclass",
+    "description": "Complete Java programming course from beginner to expert with object-oriented programming.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-java-masterclass",
+    "thumbnail": "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "12",
+    "title": "Git and GitHub Essential Training",
+    "description": "Master version control with Git and GitHub for collaborative software development.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/git-github-training",
+    "thumbnail": "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "13",
+    "title": "Linux Command Line and Shell Scripting",
+    "description": "Master Linux command line, shell scripting, and system administration fundamentals.",
+    "platform": "Mega",
+    "link": "https://mega.nz/linux-command-line-course",
+    "thumbnail": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "14",
+    "title": "Docker and Kubernetes for Developers",
+    "description": "Learn containerization with Docker and orchestration with Kubernetes for modern DevOps.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-docker-kubernetes",
+    "thumbnail": "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "15",
+    "title": "AWS Cloud Computing Essentials",
+    "description": "Master Amazon Web Services cloud computing with hands-on labs and real projects.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/aws-cloud-essentials",
+    "thumbnail": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "16",
+    "title": "Advanced Penetration Testing",
+    "description": "Master advanced penetration testing techniques using industry-standard tools and methodologies.",
+    "platform": "Mega",
+    "link": "https://mega.nz/advanced-penetration-testing",
+    "thumbnail": "https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "17",
+    "title": "Machine Learning with Python",
+    "description": "Complete machine learning course using Python, TensorFlow, and Keras for AI development.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-ml-python-course",
+    "thumbnail": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "18",
+    "title": "Blockchain Development Fundamentals",
+    "description": "Learn blockchain technology and smart contract development with Ethereum and Solidity.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/blockchain-development",
+    "thumbnail": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "19",
+    "title": "Mobile App Development with Flutter",
+    "description": "Build cross-platform mobile applications using Flutter and Dart programming language.",
+    "platform": "Mega",
+    "link": "https://mega.nz/flutter-mobile-development",
+    "thumbnail": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "20",
+    "title": "Unity Game Development Complete Course",
+    "description": "Create professional 2D and 3D games using Unity engine and C# programming.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-unity-game-dev",
+    "thumbnail": "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "21",
+    "title": "Network Security Essentials",
+    "description": "Learn network security fundamentals, firewall configuration, and intrusion detection systems.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/network-security-essentials",
     "thumbnail": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=250&fit=crop",
     "embedAllowed": false
   },
   {
-    "id": "4",
+    "id": "22",
+    "title": "UI/UX Design Masterclass",
+    "description": "Master user interface and user experience design principles with Figma and Adobe XD.",
+    "platform": "Mega",
+    "link": "https://mega.nz/ui-ux-design-masterclass",
+    "thumbnail": "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "23",
+    "title": "Digital Marketing and SEO",
+    "description": "Complete digital marketing course covering SEO, social media, email marketing, and analytics.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-digital-marketing",
+    "thumbnail": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "24",
+    "title": "Data Structures and Algorithms",
+    "description": "Master fundamental data structures and algorithms for programming interviews and problem-solving.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/data-structures-algorithms",
+    "thumbnail": "https://images.unsplash.com/photo-1509966756634-9c23dd6e6815?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "25",
     "title": "Ethical Hacking & Bug Bounty",
     "description": "Complete guide to ethical hacking and bug bounty hunting with real-world examples.",
-    "platform": "Udemy", 
-    "link": "https://www.udemy.com/course/ethical-hacking-bug-bounty",
+    "platform": "Mega",
+    "link": "https://mega.nz/ethical-hacking-bug-bounty",
     "thumbnail": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop",
     "embedAllowed": false
   },
   {
-    "id": "5",
-    "title": "Digital Forensics & Incident Response",
-    "description": "Learn digital forensics techniques and incident response procedures for cybersecurity incidents.",
+    "id": "26",
+    "title": "DevOps and CI/CD Pipeline",
+    "description": "Learn DevOps practices, continuous integration, and deployment with Jenkins and GitLab.",
     "platform": "OneDrive",
-    "link": "https://onedrive.com/direct-digital-forensics-course", 
-    "thumbnail": "https://images.unsplash.com/photo-1551808525-51a94da548ce?w=400&h=250&fit=crop",
+    "link": "https://onedrive.com/direct-devops-cicd",
+    "thumbnail": "https://images.unsplash.com/photo-1618477388954-7852f32655ec?w=400&h=250&fit=crop",
     "embedAllowed": true
   },
   {
-    "id": "6",
+    "id": "27",
+    "title": "Artificial Intelligence Fundamentals",
+    "description": "Introduction to AI concepts, neural networks, and machine learning algorithms.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/ai-fundamentals",
+    "thumbnail": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "28",
+    "title": "Cloud Architecture and Design Patterns",
+    "description": "Learn cloud architecture principles and design patterns for scalable applications.",
+    "platform": "Mega",
+    "link": "https://mega.nz/cloud-architecture-patterns",
+    "thumbnail": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "29",
+    "title": "Microservices Architecture with Spring Boot",
+    "description": "Build microservices applications using Spring Boot, Docker, and Kubernetes.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-microservices-spring",
+    "thumbnail": "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "30",
+    "title": "Digital Forensics & Incident Response",
+    "description": "Learn digital forensics techniques and incident response procedures for cybersecurity incidents.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/digital-forensics-incident-response",
+    "thumbnail": "https://images.unsplash.com/photo-1551808525-51a94da548ce?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "31",
+    "title": "Advanced Python Web Development",
+    "description": "Build advanced web applications with Django, Flask, and FastAPI frameworks.",
+    "platform": "Mega",
+    "link": "https://mega.nz/advanced-python-web-dev",
+    "thumbnail": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "32",
+    "title": "Computer Vision with OpenCV",
+    "description": "Master computer vision techniques using OpenCV and Python for image processing.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-computer-vision-opencv",
+    "thumbnail": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "33",
+    "title": "GraphQL API Development",
+    "description": "Build modern APIs with GraphQL, Apollo Server, and integrate with databases.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/graphql-api-development",
+    "thumbnail": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "34",
     "title": "Malware Analysis Workshop",
     "description": "Hands-on malware analysis using reverse engineering tools and sandboxing techniques.",
     "platform": "Mega",
     "link": "https://mega.nz/malware-analysis-workshop",
     "thumbnail": "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=400&h=250&fit=crop",
     "embedAllowed": false
+  },
+  {
+    "id": "35",
+    "title": "iOS App Development with Swift",
+    "description": "Build native iOS applications using Swift programming language and Xcode.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-ios-swift-development",
+    "thumbnail": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "36",
+    "title": "Android Development with Kotlin",
+    "description": "Create Android applications using Kotlin and Android Studio with modern development practices.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/android-kotlin-development",
+    "thumbnail": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "37",
+    "title": "Big Data Analytics with Apache Spark",
+    "description": "Process and analyze big data using Apache Spark, Hadoop, and distributed computing.",
+    "platform": "Mega",
+    "link": "https://mega.nz/big-data-apache-spark",
+    "thumbnail": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "38",
+    "title": "Serverless Computing with AWS Lambda",
+    "description": "Build serverless applications using AWS Lambda, API Gateway, and other cloud services.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-serverless-aws-lambda",
+    "thumbnail": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "39",
+    "title": "Vue.js Complete Guide",
+    "description": "Master Vue.js framework for building modern single-page applications with Vuex and Vue Router.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/vuejs-complete-guide",
+    "thumbnail": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "40",
+    "title": "Penetration Testing with Kali Linux",
+    "description": "Advanced penetration testing techniques using Kali Linux and professional security tools.",
+    "platform": "Mega",
+    "link": "https://mega.nz/penetration-testing-kali",
+    "thumbnail": "https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "41",
+    "title": "Natural Language Processing with Python",
+    "description": "Learn NLP techniques and build text processing applications with NLTK and spaCy.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-nlp-python",
+    "thumbnail": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "42",
+    "title": "Terraform Infrastructure as Code",
+    "description": "Automate infrastructure deployment and management using Terraform and cloud providers.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/terraform-infrastructure-code",
+    "thumbnail": "https://images.unsplash.com/photo-1618477388954-7852f32655ec?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "43",
+    "title": "Internet of Things (IoT) Development",
+    "description": "Build IoT applications with Arduino, Raspberry Pi, and cloud connectivity.",
+    "platform": "Mega",
+    "link": "https://mega.nz/iot-development-course",
+    "thumbnail": "https://images.unsplash.com/photo-1518475155321-d57df2e84b05?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "44",
+    "title": "Angular Complete Course",
+    "description": "Master Angular framework for building enterprise-scale web applications with TypeScript.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-angular-complete",
+    "thumbnail": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "45",
+    "title": "Rust Programming Language",
+    "description": "Learn Rust programming for system programming, web development, and blockchain applications.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/rust-programming-language",
+    "thumbnail": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "46",
+    "title": "Quantum Computing Fundamentals",
+    "description": "Introduction to quantum computing concepts, quantum algorithms, and IBM Qiskit framework.",
+    "platform": "Mega",
+    "link": "https://mega.nz/quantum-computing-fundamentals",
+    "thumbnail": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "47",
+    "title": "Elasticsearch and Data Search",
+    "description": "Master Elasticsearch for full-text search, analytics, and real-time data processing.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-elasticsearch-search",
+    "thumbnail": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
+    "embedAllowed": true
+  },
+  {
+    "id": "48",
+    "title": "Software Testing and Quality Assurance",
+    "description": "Learn software testing methodologies, automation testing, and quality assurance practices.",
+    "platform": "Udemy",
+    "link": "https://www.udemy.com/course/software-testing-qa",
+    "thumbnail": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "49",
+    "title": "Web3 and DeFi Development",
+    "description": "Build decentralized applications and DeFi protocols using Ethereum and Solidity.",
+    "platform": "Mega",
+    "link": "https://mega.nz/web3-defi-development",
+    "thumbnail": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=250&fit=crop",
+    "embedAllowed": false
+  },
+  {
+    "id": "50",
+    "title": "Redis and Caching Strategies",
+    "description": "Master Redis for caching, session management, and high-performance data storage.",
+    "platform": "OneDrive",
+    "link": "https://onedrive.com/direct-redis-caching",
+    "thumbnail": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=400&h=250&fit=crop",
+    "embedAllowed": true
   }
 ]

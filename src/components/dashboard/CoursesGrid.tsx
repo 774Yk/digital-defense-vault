@@ -3,7 +3,6 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Search, Filter } from 'lucide-react'
 import CourseCard from './CourseCard'
-import coursesData from '@/data/courses.json'
 
 interface Course {
   id: string
@@ -15,8 +14,11 @@ interface Course {
   embedAllowed: boolean
 }
 
-const CoursesGrid = () => {
-  const [courses] = useState<Course[]>(coursesData as Course[])
+interface CoursesGridProps {
+  courses: Course[]
+}
+
+const CoursesGrid = ({ courses }: CoursesGridProps) => {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>(courses)
   const [searchTerm, setSearchTerm] = useState('')
   const [platformFilter, setPlatformFilter] = useState<string>('all')

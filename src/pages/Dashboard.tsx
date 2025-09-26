@@ -33,6 +33,18 @@ import { InteractiveActions } from '@/components/dashboard/InteractiveActions'
 import { UserManagement } from '@/components/dashboard/UserManagement'
 import { QuickSetup } from '@/components/dashboard/QuickSetup'
 import CoursesGrid from '@/components/dashboard/CoursesGrid'
+import CourseManagement from '@/components/dashboard/CourseManagement'
+import coursesData from '@/data/courses.json'
+
+interface Course {
+  id: string
+  title: string
+  description: string
+  platform: 'Udemy' | 'OneDrive' | 'Mega'
+  link: string
+  thumbnail: string
+  embedAllowed: boolean
+}
 
 interface UserProfile {
   id: string
@@ -44,6 +56,7 @@ interface UserProfile {
 const Dashboard = () => {
   const { user, loading } = useAuth()
   const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [courses, setCourses] = useState<Course[]>(coursesData as Course[])
   const [stats, setStats] = useState({
     courses: 0,
     tools: 0,
@@ -65,6 +78,10 @@ const Dashboard = () => {
     }
   }, [user])
 
+  useEffect(() => {
+    setStats(prev => ({ ...prev, courses: courses.length }))
+  }, [courses])
+
   const fetchProfile = async () => {
     try {
       // Show demo profile since we don't have user management tables yet
@@ -82,12 +99,12 @@ const Dashboard = () => {
   const fetchStats = async () => {
     try {
       // Show demo stats since we don't have content tables yet  
-      setStats({
-        courses: 15,
+      setStats(prev => ({
+        ...prev,
         tools: 12,
         vulnerabilities: 32,
         dosArticles: 18
-      })
+      }))
     } catch (error) {
       console.error('Error fetching stats:', error)
     }
@@ -287,13 +304,12 @@ const Dashboard = () => {
                         Access comprehensive cybersecurity courses from multiple platforms
                       </p>
                     </div>
-                    <Button className="gap-2">
-                      <Plus className="w-4 h-4" />
-                      Add Course
-                    </Button>
                   </div>
                   
-                  <CoursesGrid />
+                  <div className="space-y-6">
+                    <CourseManagement courses={courses} setCourses={setCourses} />
+                    <CoursesGrid courses={courses} />
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="tools" className="space-y-6">
