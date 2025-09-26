@@ -32,11 +32,11 @@ serve(async (req) => {
     
     const { message, files = [], conversationHistory = [] } = requestBody;
     
-    if (!message || typeof message !== 'string') {
-      throw new Error('Message is required and must be a string');
+    if (!message && (!files || files.length === 0)) {
+      throw new Error('Message or files are required');
     }
     
-    console.log('Processing AI request for message:', message.substring(0, 50));
+    console.log('Processing AI request for message:', (message || 'no message, files only').substring(0, 50));
 
     // Check available API keys
     const geminiKey = Deno.env.get('GEMINI_API_KEY');
@@ -133,14 +133,25 @@ async function callGemini(
   }
 
   // Build parts with message, history and attachments (images as inlineData, text/json as text parts)
-  const parts: any[] = [
-    {
+  const parts: any[] = [];
+  
+  // Add context and message if provided
+  if (message && message.trim()) {
+    parts.push({
       text: `You are MR.Yassen, a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education.\n\nContext from conversation:\n${history
         .slice(-5)
         .map((h) => `${h.type}: ${h.content}`)
         .join('\n')}\n\nUser message: ${message}`,
-    },
-  ];
+    });
+  } else if (files && files.length > 0) {
+    // If no message but files provided, add context for file analysis
+    parts.push({
+      text: `You are MR.Yassen, a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education.\n\nContext from conversation:\n${history
+        .slice(-5)
+        .map((h) => `${h.type}: ${h.content}`)
+        .join('\n')}\n\nPlease analyze the attached file(s):`,
+    });
+  }
 
   try {
     const maxFiles = 3; // keep payloads small
