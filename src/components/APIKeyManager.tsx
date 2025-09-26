@@ -35,6 +35,12 @@ const APIKeyManager = () => {
       description: 'Anthropic Claude API key for AI assistance'
     },
     {
+      name: 'GOOGLE_API_KEY',
+      key: '',
+      isSet: true,
+      description: 'Google API key for Text-to-Speech and Speech-to-Text services'
+    },
+    {
       name: 'HUGGING_FACE_TOKEN',
       key: '',
       isSet: false,

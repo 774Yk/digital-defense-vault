@@ -19,7 +19,9 @@ import {
   User,
   FileText,
   Paperclip,
-  Loader2
+  Loader2,
+  Volume2,
+  MicOff
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 
@@ -43,11 +45,15 @@ const AIChat = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const audioInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -93,6 +99,11 @@ const AIChat = () => {
       };
 
       setMessages(prev => [...prev, aiMessage]);
+
+      // Auto-speak AI responses
+      if (response.data?.response) {
+        handleTextToSpeech(response.data.response);
+      }
     } catch (error) {
       console.error('Error calling AI:', error);
       
@@ -164,6 +175,107 @@ const AIChat = () => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
+    }
+  };
+
+  const handleTextToSpeech = async (text: string) => {
+    try {
+      setIsSpeaking(true);
+      const response = await supabase.functions.invoke('google-speech', {
+        body: { action: 'text-to-speech', text }
+      });
+
+      if (response.error) throw response.error;
+
+      const audioContent = response.data?.audioContent;
+      if (audioContent) {
+        const audioData = atob(audioContent);
+        const audioArray = new Uint8Array(audioData.length);
+        for (let i = 0; i < audioData.length; i++) {
+          audioArray[i] = audioData.charCodeAt(i);
+        }
+        
+        const audioBlob = new Blob([audioArray], { type: 'audio/mp3' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        
+        audio.onended = () => {
+          setIsSpeaking(false);
+          URL.revokeObjectURL(audioUrl);
+        };
+        
+        audio.play();
+      }
+    } catch (error) {
+      console.error('Text-to-speech error:', error);
+      setIsSpeaking(false);
+      toast({
+        title: "Speech Error",
+        description: "Failed to convert text to speech",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorderRef.current = new MediaRecorder(stream);
+      audioChunksRef.current = [];
+
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        audioChunksRef.current.push(event.data);
+      };
+
+      mediaRecorderRef.current.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        await handleSpeechToText(audioBlob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+    } catch (error) {
+      toast({
+        title: "Recording Error",
+        description: "Failed to access microphone",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  };
+
+  const handleSpeechToText = async (audioBlob: Blob) => {
+    try {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64Audio = (reader.result as string).split(',')[1];
+        
+        const response = await supabase.functions.invoke('google-speech', {
+          body: { action: 'speech-to-text', audio: base64Audio }
+        });
+
+        if (response.error) throw response.error;
+
+        const transcript = response.data?.transcript;
+        if (transcript) {
+          setInputMessage(transcript);
+        }
+      };
+      reader.readAsDataURL(audioBlob);
+    } catch (error) {
+      console.error('Speech-to-text error:', error);
+      toast({
+        title: "Speech Recognition Error",
+        description: "Failed to convert speech to text",
+        variant: "destructive",
+      });
     }
   };
 
@@ -310,6 +422,27 @@ const AIChat = () => {
                   >
                     <Mic className="w-4 h-4" />
                     Audio
+                  </Button>
+
+                  <Button
+                    variant={isRecording ? "destructive" : "outline"}
+                    size="sm"
+                    onClick={isRecording ? stopRecording : startRecording}
+                    className="gap-2"
+                  >
+                    {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                    {isRecording ? 'Stop Recording' : 'Voice Input'}
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => isSpeaking ? null : handleTextToSpeech(inputMessage)}
+                    disabled={!inputMessage.trim() || isSpeaking}
+                    className="gap-2"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    {isSpeaking ? 'Speaking...' : 'Test Voice'}
                   </Button>
                   
                   <Button
