@@ -4,10 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { supabase } from '@/integrations/supabase/client'
-import { Shield, Search, AlertTriangle } from 'lucide-react'
+import { Shield, Search, AlertTriangle, Database } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import { ExternalVulnSearch } from '@/components/vulnerabilities/ExternalVulnSearch'
 
 interface Vulnerability {
   id: string
@@ -102,29 +104,58 @@ const Vulnerabilities = () => {
           </div>
         </section>
 
-        {/* Search */}
-        <section className="py-8 bg-background/50">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row gap-4 items-center">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search vulnerabilities..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {filteredVulnerabilities.length} vulnerabilit{filteredVulnerabilities.length !== 1 ? 'ies' : 'y'} found
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Vulnerabilities Grid */}
+        {/* Main Content */}
         <section className="py-12">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Tabs defaultValue="external" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-8">
+                <TabsTrigger value="external" className="flex items-center gap-2">
+                  <Database className="w-4 h-4" />
+                  External Database Search
+                </TabsTrigger>
+                <TabsTrigger value="local" className="flex items-center gap-2">
+                  <Shield className="w-4 h-4" />
+                  Local Knowledge Base
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="external">
+                <ExternalVulnSearch />
+              </TabsContent>
+              
+              <TabsContent value="local">
+                {/* Local Search */}
+                <div className="mb-8">
+                  <Card className="border-primary/20 bg-card/60 backdrop-blur-md">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Search className="w-5 h-5" />
+                        Local Vulnerability Database
+                      </CardTitle>
+                      <CardDescription>
+                        Search our curated collection of educational vulnerability resources
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex gap-2">
+                        <div className="relative flex-1">
+                          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            placeholder="Search local vulnerabilities..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
+                        <div className="text-sm text-muted-foreground flex items-center">
+                          {filteredVulnerabilities.length} result{filteredVulnerabilities.length !== 1 ? 's' : ''}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Local Vulnerabilities Grid */}
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, i) => (
@@ -203,6 +234,8 @@ const Vulnerabilities = () => {
                 ))}
               </div>
             )}
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
       </main>
