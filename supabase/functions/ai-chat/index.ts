@@ -11,6 +11,13 @@ interface Message {
   content: string;
 }
 
+interface UploadedFile {
+  name: string;
+  type: string;
+  size: number;
+  data?: string; // base64 without data URL prefix
+}
+
 serve(async (req) => {
   console.log('AI Chat function called with method:', req.method);
   
@@ -54,7 +61,7 @@ serve(async (req) => {
     if (geminiKey && !response) {
       try {
         console.log('Trying Gemini API...');
-        response = await callGemini(message, conversationHistory, geminiKey);
+        response = await callGemini(message, conversationHistory, files, geminiKey);
         console.log('Gemini API successful, response length:', response.length);
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : 'Unknown error';
@@ -113,45 +120,89 @@ serve(async (req) => {
   }
 });
 
-async function callGemini(message: string, history: Message[], apiKey: string): Promise<string> {
+async function callGemini(
+  message: string,
+  history: Message[],
+  files: UploadedFile[] = [],
+  apiKey: string
+): Promise<string> {
   console.log('Calling Gemini with API key length:', apiKey?.length || 0);
-  
+
   if (!apiKey || apiKey.length < 10) {
     throw new Error('Invalid Gemini API key');
+  }
+
+  // Build parts with message, history and attachments (images as inlineData, text/json as text parts)
+  const parts: any[] = [
+    {
+      text: `You are MR.Yassen, a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education.\n\nContext from conversation:\n${history
+        .slice(-5)
+        .map((h) => `${h.type}: ${h.content}`)
+        .join('\n')}\n\nUser message: ${message}`,
+    },
+  ];
+
+  try {
+    const maxFiles = 3; // keep payloads small
+    (files || []).slice(0, maxFiles).forEach((f, idx) => {
+      try {
+        if (!f || typeof f !== 'object') return;
+        const meta = `${f.name || 'attachment'} (${f.type || 'unknown'}, ${Math.round((f.size || 0) / 1024)} KB)`;
+
+        if (f.data && f.type?.startsWith('image/')) {
+          parts.push({ inlineData: { mimeType: f.type, data: f.data } });
+          parts.push({ text: `Attachment ${idx + 1}: ${meta} (image above).` });
+        } else if (
+          f.data && (
+            f.type?.startsWith('text/') ||
+            ['application/json', 'application/xml'].includes(f.type || '')
+          )
+        ) {
+          let decoded = '';
+          try {
+            decoded = atob(f.data);
+          } catch (_e) {
+            decoded = '';
+          }
+          const snippet = decoded.length > 6000 ? decoded.slice(0, 6000) + '\n...[truncated]...' : decoded;
+          parts.push({ text: `Attachment ${idx + 1}: ${meta} content (may be truncated):\n${snippet}` });
+        } else if (f.name) {
+          parts.push({ text: `Attachment ${idx + 1}: ${meta} (binary file provided).` });
+        }
+      } catch (innerErr) {
+        console.warn('Failed to include attachment in Gemini parts:', innerErr);
+      }
+    });
+  } catch (err) {
+    console.warn('Error while processing attachments:', err);
   }
 
   const requestBody = {
     contents: [
       {
-        parts: [
-          {
-            text: `You are MR.Yassen, a cybersecurity AI assistant. Help users with cybersecurity questions, analysis, and education. 
-
-Context from conversation:
-${history.slice(-5).map(h => `${h.type}: ${h.content}`).join('\n')}
-
-User message: ${message}`
-          }
-        ]
-      }
+        parts,
+      },
     ],
     generationConfig: {
       temperature: 0.7,
       topK: 40,
       topP: 0.95,
       maxOutputTokens: 2048,
-    }
+    },
   };
 
   console.log('Sending request to Gemini API');
-  
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    }
+  );
 
   console.log('Gemini API response status:', response.status);
 
@@ -163,13 +214,13 @@ User message: ${message}`
 
   const data = await response.json();
   console.log('Gemini API response received');
-  
+
   const content = data.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!content) {
     console.error('No content in Gemini response:', JSON.stringify(data));
     throw new Error('No content received from Gemini');
   }
-  
+
   return content;
 }
 

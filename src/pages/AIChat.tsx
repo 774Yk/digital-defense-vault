@@ -80,12 +80,40 @@ const AIChat = () => {
     setIsLoading(true);
 
     try {
-      // Call AI service
+      const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB per file
+      const readFileAsBase64 = (file: File) => new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const res = reader.result as string;
+          resolve(res.includes(',') ? res.split(',')[1] : res);
+        };
+        reader.onerror = () => reject(new Error('Failed to read file'));
+        reader.readAsDataURL(file);
+      });
+
+      let skipped = 0;
+      const filesPayload = await Promise.all(
+        selectedFiles.map(async (f) => {
+          if (f.size > MAX_FILE_SIZE) { skipped++; return null; }
+          const data = await readFileAsBase64(f);
+          return { name: f.name, type: f.type, size: f.size, data };
+        })
+      );
+      const filteredFiles = filesPayload.filter(Boolean);
+
+      if (skipped > 0) {
+        toast({
+          title: 'File size limit',
+          description: `تم تجاهل ${skipped} ملف(ات) تتجاوز ${Math.round(MAX_FILE_SIZE/1024/1024)}MB.`,
+          variant: 'destructive',
+        });
+      }
+
       const response = await supabase.functions.invoke('ai-chat', {
         body: {
           message: inputMessage,
-          files: selectedFiles.map(f => f.name), // For now, just send file names
-          conversationHistory: messages.slice(-10) // Send last 10 messages for context
+          files: filteredFiles,
+          conversationHistory: messages.slice(-10).map(m => ({ type: m.type, content: m.content }))
         }
       });
 
