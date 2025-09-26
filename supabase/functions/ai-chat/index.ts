@@ -12,7 +12,10 @@ interface Message {
 }
 
 serve(async (req) => {
-  console.log('AI Chat function called with method:', req.method);
+  console.log('=== AI CHAT FUNCTION START ===');
+  console.log('Method:', req.method);
+  console.log('URL:', req.url);
+  console.log('Headers:', Object.fromEntries(req.headers.entries()));
   
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {

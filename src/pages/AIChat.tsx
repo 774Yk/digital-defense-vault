@@ -81,6 +81,10 @@ const AIChat = () => {
 
     try {
       // Call AI service
+      console.log('=== CALLING AI CHAT FUNCTION ===');
+      console.log('Message:', inputMessage);
+      console.log('Conversation history length:', messages.length);
+      
       const response = await supabase.functions.invoke('ai-chat', {
         body: {
           message: inputMessage,
@@ -88,6 +92,11 @@ const AIChat = () => {
           conversationHistory: messages.slice(-10) // Send last 10 messages for context
         }
       });
+
+      console.log('=== FUNCTION RESPONSE ===');
+      console.log('Response:', response);
+      console.log('Response data:', response.data);
+      console.log('Response error:', response.error);
 
       if (response.error) throw response.error;
 
