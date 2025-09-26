@@ -132,10 +132,22 @@ export const ExternalVulnSearch: React.FC = () => {
                   <span className="text-sm text-muted-foreground">
                     By {exploit.author}
                   </span>
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <ExternalLink className="w-3 h-3" />
-                    View Exploit
-                  </Button>
+                  {exploit.id ? (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="gap-2"
+                      onClick={() => window.open(`https://www.exploit-db.com/exploits/${exploit.id}`, '_blank', 'noopener,noreferrer')}
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      View Exploit
+                    </Button>
+                  ) : (
+                    <Button variant="outline" size="sm" className="gap-2" disabled>
+                      <ExternalLink className="w-3 h-3 opacity-50" />
+                      Link Unavailable
+                    </Button>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -204,10 +216,32 @@ export const ExternalVulnSearch: React.FC = () => {
                   </div>
                 )}
                 <div className="flex justify-end">
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <ExternalLink className="w-3 h-3" />
-                    View Details
-                  </Button>
+                  {vuln.cve ? (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="gap-2"
+                      onClick={() => window.open(`https://www.shodan.io/search?query=${encodeURIComponent(vuln.cve)}`, '_blank', 'noopener,noreferrer')}
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      View Details
+                    </Button>
+                  ) : vuln.title ? (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="gap-2"
+                      onClick={() => window.open(`https://www.shodan.io/search?query=${encodeURIComponent(vuln.title)}`, '_blank', 'noopener,noreferrer')}
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      View Details
+                    </Button>
+                  ) : (
+                    <Button variant="outline" size="sm" className="gap-2" disabled>
+                      <ExternalLink className="w-3 h-3 opacity-50" />
+                      Link Unavailable
+                    </Button>
+                  )}
                 </div>
               </div>
             </CardContent>
