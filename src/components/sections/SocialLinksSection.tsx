@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { 
-  Twitter, 
   Instagram, 
-  Facebook, 
   Send, 
   Github,
   ExternalLink
@@ -10,40 +8,28 @@ import {
 
 const socialLinks = [
   {
-    name: "Twitter/X",
-    icon: Twitter,
-    href: "https://twitter.com",
-    color: "hover:text-blue-400 hover:shadow-[0_0_20px_rgba(29,161,242,0.5)]"
+    name: "GitHub",
+    icon: Github,
+    href: "https://github.com/Y774UK", 
+    color: "hover:text-gray-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
   },
   {
     name: "Instagram", 
     icon: Instagram,
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/Y.77.4/",
     color: "hover:text-pink-400 hover:shadow-[0_0_20px_rgba(225,48,108,0.5)]"
   },
   {
-    name: "Facebook",
-    icon: Facebook, 
-    href: "https://facebook.com",
-    color: "hover:text-blue-500 hover:shadow-[0_0_20px_rgba(24,119,242,0.5)]"
-  },
-  {
-    name: "Telegram",
+    name: "Telegram Y_774",
     icon: Send,
-    href: "https://telegram.org",
+    href: "https://t.me/Y_774",
     color: "hover:text-blue-300 hover:shadow-[0_0_20px_rgba(0,136,204,0.5)]"
   },
   {
-    name: "GitHub",
-    icon: Github,
-    href: "https://github.com", 
-    color: "hover:text-gray-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-  },
-  {
-    name: "TryHackMe",
-    icon: ExternalLink,
-    href: "https://tryhackme.com",
-    color: "hover:text-red-400 hover:shadow-[0_0_20px_rgba(239,68,68,0.5)]"
+    name: "Telegram Y_774C",
+    icon: Send,
+    href: "https://t.me/Y_774C",
+    color: "hover:text-blue-300 hover:shadow-[0_0_20px_rgba(0,136,204,0.5)]"
   }
 ];
 
@@ -62,7 +48,7 @@ const SocialLinksSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {socialLinks.map((social) => (
             <a
               key={social.name}
