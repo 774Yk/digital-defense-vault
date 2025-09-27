@@ -421,87 +421,93 @@ const AIChat = () => {
               {/* Input Area */}
               <div className="p-6 border-t border-border">
                 {/* Toolbar */}
-                <div className="flex items-center gap-2 mb-3">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleFileSelect('file')}
-                    className="gap-2"
-                  >
-                    <Upload className="w-4 h-4" />
-                    Files
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleFileSelect('image')}
-                    className="gap-2"
-                  >
-                    <ImageIcon className="w-4 h-4" />
-                    Images
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleFileSelect('audio')}
-                    className="gap-2"
-                  >
-                    <Mic className="w-4 h-4" />
-                    Audio
-                  </Button>
+                <div className="space-y-2 mb-3">
+                  {/* First row - Basic tools */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleFileSelect('file')}
+                      className="gap-2"
+                    >
+                      <Upload className="w-4 h-4" />
+                      Files
+                    </Button>
+                    
+                    <Button
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => handleFileSelect('image')}
+                      className="gap-2"
+                    >
+                      <ImageIcon className="w-4 h-4" />
+                      Images
+                    </Button>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleFileSelect('audio')}
+                      className="gap-2"
+                    >
+                      <Mic className="w-4 h-4" />
+                      Audio
+                    </Button>
 
-                  <Button
-                    variant={isRecording ? "destructive" : "outline"}
-                    size="sm"
-                    onClick={isRecording ? stopRecording : startRecording}
-                    className="gap-2"
-                  >
-                    {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                    {isRecording ? 'Stop Recording' : 'Voice Input'}
-                  </Button>
+                    <Button
+                      variant={isRecording ? "destructive" : "outline"}
+                      size="sm"
+                      onClick={isRecording ? stopRecording : startRecording}
+                      className="gap-2"
+                    >
+                      {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                      {isRecording ? 'Stop Recording' : 'Voice Input'}
+                    </Button>
 
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => isSpeaking ? null : handleTextToSpeech(inputMessage)}
-                    disabled={!inputMessage.trim() || isSpeaking}
-                    className="gap-2"
-                  >
-                    <Volume2 className="w-4 h-4" />
-                    {isSpeaking ? 'Speaking...' : 'Test Voice'}
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleCamera}
-                    className="gap-2"
-                  >
-                    <Camera className="w-4 h-4" />
-                    Camera
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleDeepSearch}
-                    className="gap-2"
-                  >
-                    <Search className="w-4 h-4" />
-                    Deep Search
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleVideoCreation}
-                    className="gap-2"
-                  >
-                    <Video className="w-4 h-4" />
-                    Video
-                  </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => isSpeaking ? null : handleTextToSpeech(inputMessage)}
+                      disabled={!inputMessage.trim() || isSpeaking}
+                      className="gap-2"
+                    >
+                      <Volume2 className="w-4 h-4" />
+                      {isSpeaking ? 'Speaking...' : 'Test Voice'}
+                    </Button>
+                  </div>
+
+                  {/* Second row - Advanced tools */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleCamera}
+                      className="gap-2"
+                    >
+                      <Camera className="w-4 h-4" />
+                      Camera
+                    </Button>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleDeepSearch}
+                      className="gap-2"
+                    >
+                      <Search className="w-4 h-4" />
+                      Deep Search
+                    </Button>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleVideoCreation}
+                      className="gap-2"
+                    >
+                      <Video className="w-4 h-4" />
+                      Video
+                    </Button>
+                  </div>
                 </div>
 
                 {/* Message Input */}
